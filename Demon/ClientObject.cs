@@ -10,7 +10,7 @@ namespace Demon
     public class ClientObject
     {
         public TcpClient client;
-        MethodsDB methodsDB = new MethodsDB();
+        StartTest startTest = new StartTest();
         public ClientObject(TcpClient tcpClient)
         {
             client = tcpClient;
@@ -37,12 +37,16 @@ namespace Demon
                 result = builder.ToString().Split('@');
                 List<string> response = new List<string>();
                 string msg = "";
+                foreach (var el in result)
+                {
+                    Console.WriteLine(el);
+                }
                 if (result.Length > 0)
                 {
                     switch (result[0])
                     {
                         case "startPackTests":
-                            msg = methodsDB.UpdateStatusPack(result[1], result[2]);
+                            //msg = startTest.Start(result[1], result[2]);
                             break;
                     }
                 }
