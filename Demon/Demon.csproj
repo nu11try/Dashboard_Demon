@@ -68,9 +68,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientObject.cs" />
+    <Compile Include="DataBaseConnect.cs" />
     <Compile Include="FileSystem.cs" />
+    <Compile Include="FreeRAM.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Controller.cs" />
+    <Compile Include="StartTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
