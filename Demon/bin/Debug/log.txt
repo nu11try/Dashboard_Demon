@@ -1,0 +1,4 @@
+2019-11-28 14:28:03 [ERROR] -- [ЗАПУСК ТЕСТОВ] Не удалось найти часть пути "C:\Users\User\Desktop\Dashboard_Demon\Demon\bin\Debug\test/GUI_MT_CLS_1_2.vbs".
+2019-11-28 14:28:04 [START] -- [СТАТУС НАБОРА ОБНОВЛЕН] 3
+2019-11-28 14:29:40 [ERROR] -- [ЗАПУСК ТЕСТОВ] Не удалось найти часть пути "C:\Users\User\Desktop\Dashboard_Demon\Demon\bin\Debug\test/GUI_MT_CLS_1_2.vbs".
+2019-11-28 14:31:07 [START] -- [СТАТУС НАБОРА ОБНОВЛЕН] 3

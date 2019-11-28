@@ -143,7 +143,7 @@ namespace Demon
                                 try
                                 {
                                     if (fs.TypeResultTest(pack.ResultFolders[i]).Equals("Passed") || fs.TypeResultTest(pack.ResultFolders[i]).Equals("Warning"))
-                                        pack.ResultTest.Add(pack.TestsInPack.id[i], fs.ResultTest(pack.Service, pack.TestsInPack.id[i], pack.ResultFolders[i], data, pack.VersionStends[i]));
+                                        pack.ResultTest.Add(pack.TestsInPack.id[i], fs.ResultTest(pack.Service, pack.TestsInPack.id[i], pack.ResultFolders[i], data, pack.VersionStends[i], pack.Stend));
                                     else if (fs.TypeResultTest(pack.ResultFolders[i]).Equals("Failed"))
                                     {
                                         while (Int32.Parse(pack.TestsInPack.restart[i]) > 0)
@@ -182,7 +182,7 @@ namespace Demon
                                         }
                                         else
                                         {
-                                            pack.ResultTest.Add(pack.TestsInPack.id[i], fs.ResultTest(pack.Service, pack.TestsInPack.id[i], pack.ResultFolders[i], data, pack.VersionStends[i]));
+                                            pack.ResultTest.Add(pack.TestsInPack.id[i], fs.ResultTest(pack.Service, pack.TestsInPack.id[i], pack.ResultFolders[i], data, pack.VersionStends[i], pack.Stend));
                                         }
                                     }
                                 }
@@ -227,7 +227,7 @@ namespace Demon
                                     {
                                         try
                                         {
-                                            pack.ResultTest.Add(pack.TestsInPack.id[i], fs.ResultTest(pack.Service, pack.TestsInPack.id[i], pack.ResultFolders[i], data, pack.VersionStends[i]));
+                                            pack.ResultTest.Add(pack.TestsInPack.id[i], fs.ResultTest(pack.Service, pack.TestsInPack.id[i], pack.ResultFolders[i], data, pack.VersionStends[i], pack.Stend));
                                         }
                                         catch
                                         {
@@ -271,7 +271,7 @@ namespace Demon
                                         {
                                             StartScript(pack.FilesToStart[i], pack);
                                             if (fs.TypeResultTest(pack.ResultFolders[i]).Equals("Passed") || fs.TypeResultTest(pack.ResultFolders[i]).Equals("Warning"))
-                                                pack.ResultTest.Add(pack.TestsInPack.id[i], fs.ResultTest(pack.Service, pack.TestsInPack.id[i], pack.ResultFolders[i], data, pack.VersionStends[i]));
+                                                pack.ResultTest.Add(pack.TestsInPack.id[i], fs.ResultTest(pack.Service, pack.TestsInPack.id[i], pack.ResultFolders[i], data, pack.VersionStends[i], pack.Stend));
                                             else if (fs.TypeResultTest(pack.ResultFolders[i]).Equals("Failed"))
                                             {
                                                 while (Int32.Parse(pack.TestsInPack.restart[i]) > 0)
@@ -299,7 +299,7 @@ namespace Demon
                                                 }
                                                 else
                                                 {
-                                                    pack.ResultTest.Add(pack.TestsInPack.id[i], fs.ResultTest(pack.Service, pack.TestsInPack.id[i], pack.ResultFolders[i], data, pack.VersionStends[i]));
+                                                    pack.ResultTest.Add(pack.TestsInPack.id[i], fs.ResultTest(pack.Service, pack.TestsInPack.id[i], pack.ResultFolders[i], data, pack.VersionStends[i], pack.Stend));
                                                 }
                                             }
                                         }
@@ -349,7 +349,7 @@ namespace Demon
                                     {
                                         try
                                         {
-                                            pack.ResultTest.Add(pack.TestsInPack.id[i], fs.ResultTest(pack.Service, pack.TestsInPack.id[i], pack.ResultFolders[i], data, pack.VersionStends[i]));
+                                            pack.ResultTest.Add(pack.TestsInPack.id[i], fs.ResultTest(pack.Service, pack.TestsInPack.id[i], pack.ResultFolders[i], data, pack.VersionStends[i], pack.Stend));
                                         }
                                         catch
                                         {

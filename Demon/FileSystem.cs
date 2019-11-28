@@ -86,7 +86,7 @@ namespace Demon
             }
             return result;
         }
-        public string ResultTest(string service, string nameTest, string resultPath, string data, string version)
+        public string ResultTest(string service, string nameTest, string resultPath, string data, string version, string stend)
         {
             // в конце - статус теста
             // каждый элемент - результат выполнения теста
@@ -192,13 +192,14 @@ namespace Demon
             message.Add(JsonConvert.SerializeObject(steps1));
             message.Add(data);
             message.Add(version);
+            message.Add(stend);
 
             request = JsonConvert.SerializeObject(message);
             response = database.SendMsg("AddStatisticDemon", service, request);
 
             return result;
         }
-        public string ResultTest(string service, string nameTest, string resultPath, string data, string options, string version)
+        public string ResultTest(string service, string nameTest, string resultPath, string data, string options, string version, string stend)
         {
             message = new Message();
 
@@ -220,9 +221,17 @@ namespace Demon
                 message.Add("TIMEOUT");
                 message.Add("TIMEOUT");
                 message.Add("TIMEOUT");
-            }           
+            }
+            else if (options == "no_verson")
+            {
+                message.Add("no_verson");
+                message.Add("no_verson");
+                message.Add("no_verson");
+                message.Add("no_verson");
+            }
             message.Add(data);
             message.Add(version);
+            message.Add(stend);
 
             request = JsonConvert.SerializeObject(message);
             response = database.SendMsg("AddStatisticDemon", service, request);
