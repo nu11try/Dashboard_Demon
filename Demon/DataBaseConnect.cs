@@ -16,7 +16,7 @@ namespace Demon
         string bufJSON;
 
         const int port = 8888;
-        const string address = "/*172.17.42.40*/";
+        const string address = "172.31.197.232";
 
         public string SendMsg(string msg, string service)
         {
