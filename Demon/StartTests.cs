@@ -143,6 +143,7 @@ namespace Demon
                         catch {}
 
                         StartScript(pack.FilesToStart[indexElement], pack);
+                        pack.TestsInPack.restart[indexElement] = (Int32.Parse(pack.TestsInPack.restart[indexElement]) - 1).ToString();
 
                         try
                         {
@@ -153,9 +154,8 @@ namespace Demon
                             }
                             if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Failed"))
                             {
-                                if (Int32.Parse(pack.TestsInPack.restart[indexElement]) == 0)
-                                    pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));
-                                pack.TestsInPack.restart[indexElement] = (Int32.Parse(pack.TestsInPack.restart[indexElement]) - 1).ToString();
+                                if (Int32.Parse(pack.TestsInPack.restart[indexElement]) < 0)
+                                    pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));                                
                                 FlagStarted = true;
                                 continue;
                             }                            
