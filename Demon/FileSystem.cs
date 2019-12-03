@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
@@ -184,7 +184,6 @@ namespace Demon
 
             message.Add(nameTest);
             message.Add(nameTest);
-            message.Add(service);
             message.Add(result);
             message.Add(JsonConvert.SerializeObject(mess));
             message.Add(duration);
@@ -205,7 +204,6 @@ namespace Demon
 
             message.Add(nameTest);
             message.Add(nameTest);
-            message.Add(service);
             message.Add("Failed");
 
             if (options == "dependen_error")

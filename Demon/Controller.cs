@@ -21,8 +21,11 @@ namespace Demon
 
         public string transformation(string param)
         {            
-            Message mess = JsonConvert.DeserializeObject<Message>(param);            
-            startTests.Init(mess);
+            Message mess = JsonConvert.DeserializeObject<Message>(param);        
+            if (mess.args[mess.args.Count-1].Equals("START"))
+                startTests.Init(mess);
+            if (mess.args[mess.args.Count - 1].Equals("STOP"))
+                startTests.Init(mess);
             return "true";
         }
     }

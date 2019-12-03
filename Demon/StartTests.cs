@@ -73,7 +73,7 @@ namespace Demon
         public void Init(object RESPONSE)
         {
             string data = DateTime.Now.ToString("dd MMMM yyyy | HH:mm:ss");
-
+            
             Response = (Message)RESPONSE;
 
             if (Response.args.Count > 0)
@@ -192,6 +192,17 @@ namespace Demon
                 request = JsonConvert.SerializeObject(message);
                 response = database.SendMsg("UpdateStatusPack", pack.Service, request);
             });            
+        }
+        public void Stop(object RESPONSE)
+        {
+            Response = (Message)RESPONSE;
+            CloseProc();
+            CloseUFT();
+            FlagStarted = false;
+            try { timer.Dispose(); } catch { }
+            try { StartTest.Kill(); } catch { }
+            try { StartTest.Close(); } catch { }
+            try { SeconsdEnd = 0; } catch { }
         }
         static public void ReplaceInFile(string filePath, string searchText, string replaceText)
         {
