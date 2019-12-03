@@ -176,17 +176,22 @@ namespace Demon
                 FlagStarted = true;
                 
                 Finish(pack);
-            });
 
-            message = new Message();
-            message.Add(packs[0].Service);
-            request = JsonConvert.SerializeObject(message);
-            response = database.SendMsg("DeleteAutostart", packs[0].Service, request);
+                message = new Message();
+                message.Add(pack.Service);
+                request = JsonConvert.SerializeObject(message);
+                response = database.SendMsg("DeleteAutostart", pack.Service, request);
 
-            message = new Message();
-            message.Add(packs[0].Service);
-            request = JsonConvert.SerializeObject(message);
-            response = database.SendMsg("UpdateStatusAutostart", packs[0].Service, request);
+                message = new Message();
+                message.Add(pack.Name, pack.Service);
+                request = JsonConvert.SerializeObject(message);
+                response = database.SendMsg("UpdateStatusAutostart", pack.Service, request);
+
+                message = new Message();
+                message.Add(pack.Name);
+                request = JsonConvert.SerializeObject(message);
+                response = database.SendMsg("UpdateStatusPack", pack.Service, request);
+            });            
         }
         static public void ReplaceInFile(string filePath, string searchText, string replaceText)
         {
@@ -266,18 +271,6 @@ namespace Demon
             CloseProc();
             CloseUFT();
 
-            message = new Message();
-            message.Add(pack.Name);
-            request = JsonConvert.SerializeObject(message);
-            response = database.SendMsg("UpdateStatusPack", packs[0].Service, request);
-            /*
-            query = "UPDATE packs SET `status` = 'no_start' WHERE `id` = @id";
-            command = new SQLiteCommand(query, database.connect);
-            command.Parameters.AddWithValue("@id", pack.Name);
-            database.OpenConnection();
-            command.ExecuteNonQuery();
-            database.CloseConnection();
-            */
             logger.WriteLog("[СТАТУС НАБОРА ОБНОВЛЕН] " + pack.Name, "START");
             Console.WriteLine("Статус набора " + pack.Name + " обновлен!");
             freeRAM.Free();
