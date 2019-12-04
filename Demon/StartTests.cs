@@ -125,6 +125,7 @@ namespace Demon
                     if (ver == "no_version")
                     {
                         pack.TestsInPack.restart[indexElement] = (Int32.Parse(pack.TestsInPack.restart[indexElement]) - 1).ToString();
+                        FlagStarted = true;
                         continue;
                     }
                     pack.VersionStends.Add(ver);
@@ -137,6 +138,7 @@ namespace Demon
                             if (pack.ResultTest[bufDependons].Equals("Failed"))
                             {
                                 pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "dependen_error", pack.VersionStends[indexElement]));
+                                FlagStarted = true;                                
                                 break;
                             }
                         }
@@ -144,12 +146,14 @@ namespace Demon
 
                         StartScript(pack.FilesToStart[indexElement], pack);
                         pack.TestsInPack.restart[indexElement] = (Int32.Parse(pack.TestsInPack.restart[indexElement]) - 1).ToString();
+                        FlagStarted = true;                        
 
                         try
                         {
                             if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Passed") || fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Warning"))
                             {
                                 pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));
+                                FlagStarted = true;                                
                                 break;
                             }
                             if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Failed"))
@@ -163,11 +167,15 @@ namespace Demon
                         catch
                         {
                             pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "time_out", pack.VersionStends[indexElement]));
+                            FlagStarted = true;
+                            continue;
                         }
                     }
                     else
                     {
                         pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "no_verson", pack.VersionStends[indexElement]));
+                        FlagStarted = true;
+                        continue;
                     }
                 }
 
