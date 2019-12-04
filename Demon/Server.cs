@@ -10,9 +10,8 @@ namespace Demon
 {
     public class Server
     {
-        //const int port = 8888;
-        //const string ip = "172.31.197.232";
-        //const string ip = "127.0.0.1";                   
+        static int port = 8889;
+        static string ip = "";              
 
         static TcpListener listener;
         static DataBaseConnect database = new DataBaseConnect();
@@ -26,13 +25,10 @@ namespace Demon
 
         static void Main(string[] args)
         {
-            FileSystem fileSystem = new FileSystem();
-            string bufParamStart;           
-            
+            ip = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
             try
-            {
-                bufParamStart = fileSystem.ReadFileConfig();
-                listener = new TcpListener(IPAddress.Parse(bufParamStart.Split('%')[0]), Int32.Parse(bufParamStart.Split('%')[1]));
+            {                
+                listener = new TcpListener(IPAddress.Parse(ip), port);
                 listener.Start();
                 Console.WriteLine("===================================");
                 Console.WriteLine("Произведен запуск демона для Asylum!");

@@ -38,3 +38,7 @@ C:\Users\User\Desktop\Dashboard_Demon\Demon\obj\Debug\Demon.csprojAssemblyRefere
 C:\Users\User\Desktop\Dashboard_Demon\Demon\obj\Debug\Demon.csproj.CopyComplete
 C:\Users\User\Desktop\Dashboard_Demon\Demon\obj\Debug\Demon.exe
 C:\Users\User\Desktop\Dashboard_Demon\Demon\obj\Debug\Demon.pdb
+E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\Demon.exe.manifest
+E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\Demon.application
+E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\obj\Debug\Demon.exe.manifest
+E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\obj\Debug\Demon.application

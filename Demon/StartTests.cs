@@ -190,6 +190,7 @@ namespace Demon
                 message = new Message();
                 message.Add(pack.Name);
                 request = JsonConvert.SerializeObject(message);
+                Console.WriteLine("Update status pack = " + request);
                 response = database.SendMsg("UpdateStatusPack", pack.Service, request);
             });            
         }
@@ -317,10 +318,7 @@ namespace Demon
             if (SeconsdEnd >= Int32.Parse(pack.TestsInPack.time[pack.FilesToStart.IndexOf(fileStarted.ToString())]) && FlagStarted)
             {
                 CloseProc();
-                try { timer.Dispose(); } catch { }
-                try { StartTest.Kill(); } catch { }
-                try { StartTest.Close(); } catch { }
-                try { SeconsdEnd = 0; } catch { }
+                CloseUFT();
                 FlagStarted = false;
             }
             else if (!FlagStarted)
