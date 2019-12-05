@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Diagnostics;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -11,7 +13,7 @@ namespace Demon
     public class Server
     {
         static int port = 8889;
-        static string ip = "";              
+        static string ip = "";
 
         static TcpListener listener;
         static DataBaseConnect database = new DataBaseConnect();
@@ -27,7 +29,7 @@ namespace Demon
         {
             ip = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
             try
-            {                
+            {
                 listener = new TcpListener(IPAddress.Parse(ip), port);
                 listener.Start();
                 Console.WriteLine("===================================");
@@ -36,15 +38,20 @@ namespace Demon
                 Console.WriteLine("Демон готов принимать поручения");
                 Console.WriteLine("==================================");
 
+                if (!Directory.Exists(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\test\\"))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\test\\");
+                }
+
                 while (true)
-                {                   
+                {
                     TcpClient client = listener.AcceptTcpClient();
                     ClientObject clientObject = new ClientObject(client);
 
                     // создаем новый поток для обслуживания нового клиента
                     Thread clientThread = new Thread(new ThreadStart(clientObject.Process));
-                    clientThread.Start();                    
-                }                
+                    clientThread.Start();
+                }
             }
             catch (Exception ex)
             {
@@ -55,7 +62,7 @@ namespace Demon
                 if (listener != null)
                     listener.Stop();
             }
-        }        
+        }
     }
     public class Message
     {
