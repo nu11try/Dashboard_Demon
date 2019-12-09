@@ -22,7 +22,7 @@
     <UpdateMode>Background</UpdateMode>
     <UpdateInterval>30</UpdateInterval>
     <UpdateIntervalUnits>Hours</UpdateIntervalUnits>
-    <UpdatePeriodically>true</UpdatePeriodically>
+    <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>\\172.31.197.220\atst\demon\</InstallUrl>
@@ -30,7 +30,7 @@
     <ProductName>Demon</ProductName>
     <PublisherName>OTR</PublisherName>
     <SuiteName>Demon</SuiteName>
-    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationRevision>19</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>

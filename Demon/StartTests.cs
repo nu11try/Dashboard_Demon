@@ -110,81 +110,80 @@ namespace Demon
             packs.ForEach(pack =>
             {
                 int indexElement = 0;
-                while (Int32.Parse(pack.TestsInPack.restart[indexElement]) >= 0)
+                for (int i = 0; i < pack.TestsInPack.id.Count; i++)
                 {
-                    FlagStarted = true;
-                    string ver = "";
-
-                    myReg = new Regex(@"http:\/\/.*\/");
-                    ver = GetVersionStend(myReg.Match(pack.Stend).Value);
-                    Message message = new Message();
-                    message.Add(pack.Service, ver, data);
-
-                    Console.WriteLine("ver = " + ver);
-
-                    if (ver == "no_version")
+                    while (Int32.Parse(pack.TestsInPack.restart[indexElement]) >= 0)
                     {
-                        pack.TestsInPack.restart[indexElement] = (Int32.Parse(pack.TestsInPack.restart[indexElement]) - 1).ToString();
                         FlagStarted = true;
-                        continue;
-                    }
-                    pack.VersionStends.Add(ver);
+                        string ver = "";
 
-                    if (!ver.Equals("no_version"))
-                    {
-                        string bufDependons = JsonConvert.DeserializeObject<Message>(pack.TestsInPack.dependon[indexElement]).args[0];
-                        try
-                        {
-                            if (pack.ResultTest[bufDependons].Equals("Failed"))
-                            {
-                                pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "dependen_error", pack.VersionStends[indexElement]));
-                                FlagStarted = true;                                
-                                break;
-                            }
-                        }
-                        catch {}
+                        myReg = new Regex(@"http:\/\/.*\/");
+                        ver = GetVersionStend(myReg.Match(pack.Stend).Value);
+                        Message message = new Message();
+                        message.Add(pack.Service, ver, data);
+                        pack.VersionStends.Add(ver);
+                        Console.WriteLine("ver = " + ver);
 
-                        StartScript(pack.FilesToStart[indexElement], pack);
-                        pack.TestsInPack.restart[indexElement] = (Int32.Parse(pack.TestsInPack.restart[indexElement]) - 1).ToString();
-                        FlagStarted = true;                        
-
-                        try
+                        if (ver == "no_version")
                         {
-                            if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Passed") || fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Warning"))
-                            {
-                                pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));
-                                FlagStarted = true;                                
-                                break;
-                            }
-                            if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Failed"))
-                            {
-                                if (Int32.Parse(pack.TestsInPack.restart[indexElement]) < 0)
-                                    pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));                                
-                                FlagStarted = true;
-                                continue;
-                            }                            
-                        }
-                        catch
-                        {
-                            pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "time_out", pack.VersionStends[indexElement]));
+                            if (Int32.Parse(pack.TestsInPack.restart[indexElement]) < 0)                            
+                                pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "no_verson", pack.VersionStends[indexElement], pack.Stend));                            
+                            
+                            pack.TestsInPack.restart[indexElement] = (Int32.Parse(pack.TestsInPack.restart[indexElement]) - 1).ToString();
                             FlagStarted = true;
                             continue;
+                        }                        
+
+                        if (!ver.Equals("no_version"))
+                        {
+                            string bufDependons = JsonConvert.DeserializeObject<Message>(pack.TestsInPack.dependon[indexElement]).args[0];
+                            try
+                            {
+                                if (pack.ResultTest[bufDependons].Equals("Failed"))
+                                {
+                                    pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "dependen_error", pack.VersionStends[indexElement], pack.Stend));
+                                    FlagStarted = true;
+                                    break;
+                                }
+                            }
+                            catch { }
+
+                            StartScript(pack.FilesToStart[indexElement], pack);
+                            pack.TestsInPack.restart[indexElement] = (Int32.Parse(pack.TestsInPack.restart[indexElement]) - 1).ToString();
+                            FlagStarted = true;
+
+                            try
+                            {
+                                if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Passed") || fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Warning"))
+                                {
+                                    pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));
+                                    FlagStarted = true;
+                                    break;
+                                }
+                                if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Failed"))
+                                {
+                                    if (Int32.Parse(pack.TestsInPack.restart[indexElement]) < 0)
+                                        pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));
+                                    FlagStarted = true;
+                                    continue;
+                                }
+                            }
+                            catch
+                            {
+                                pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "time_out", pack.VersionStends[indexElement], pack.Stend));
+                                FlagStarted = true;
+                                continue;
+                            }
                         }
                     }
-                    else
-                    {
-                        pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "no_verson", pack.VersionStends[indexElement]));
-                        FlagStarted = true;
-                        continue;
-                    }
+
+                    Console.WriteLine("Тест " + pack.FilesToStart[indexElement] + " выполнен!");
+                    logger.WriteLog("[ЗАПУСК ТЕСТОВ] " + pack.FilesToStart[indexElement], "START");
+                    FlagStarted = true;
+
+                    indexElement++;
+                    //File.Delete(pack.FilesToStart[indexElement]);
                 }
-
-                Console.WriteLine("Тест " + pack.FilesToStart[indexElement] + " выполнен!");
-                logger.WriteLog("[ЗАПУСК ТЕСТОВ] " + pack.FilesToStart[indexElement], "START");
-                FlagStarted = true;
-                
-                Finish(pack);
-
                 message = new Message();
                 message.Add(pack.Service);
                 request = JsonConvert.SerializeObject(message);
@@ -200,7 +199,10 @@ namespace Demon
                 request = JsonConvert.SerializeObject(message);
                 Console.WriteLine("Update status pack = " + request);
                 response = database.SendMsg("UpdateStatusPack", pack.Service, request);
-            });            
+                
+                FlagStarted = true;
+                Finish(pack);
+            });          
         }
         public void Stop(object RESPONSE)
         {
@@ -231,15 +233,16 @@ namespace Demon
                 {
                     if (pack.TestsInPack.duplicate[i] == "not")
                     {
-                        File.Copy(AppDomain.CurrentDomain.BaseDirectory + "/startTests.vbs",
-                            AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs", true);
+                        File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\startTests.vbs",
+                            AppDomain.CurrentDomain.BaseDirectory + "test\\" + pack.TestsInPack.id[i] + ".vbs", true);
 
-                        ReplaceInFile(AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs",
+                        ReplaceInFile(AppDomain.CurrentDomain.BaseDirectory + "test\\" + pack.TestsInPack.id[i] + ".vbs",
                             "AddressHost", pack.Stend);
+                        Console.WriteLine(pack.Browser.ToUpper());
                         if (pack.TestsInPack.browser[i].Equals("default") || pack.TestsInPack.browser[i].Equals("По умолчанию"))
-                            ReplaceInFile(AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs",
+                            ReplaceInFile(AppDomain.CurrentDomain.BaseDirectory + "test\\" + pack.TestsInPack.id[i] + ".vbs",
                                 "BrowserName", pack.Browser.ToUpper());
-                        else ReplaceInFile(AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs",
+                        else ReplaceInFile(AppDomain.CurrentDomain.BaseDirectory + "test\\" + pack.TestsInPack.id[i] + ".vbs",
                                 "BrowserName", pack.TestsInPack.browser[i].ToUpper());
 
                         using (FileStream fstream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs", FileMode.Append))
@@ -249,21 +252,21 @@ namespace Demon
                                     + "\\" + pack.TestsInPack.id[i] + "\\Res1\\" + "\")");
                             fstream.Write(array, 0, array.Length);
 
-                            pack.FilesToStart.Add(AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs");
+                            pack.FilesToStart.Add(AppDomain.CurrentDomain.BaseDirectory + "test\\" + pack.TestsInPack.id[i] + ".vbs");
                             pack.ResultFolders.Add("Z:\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\") + "\\" + pack.TestsInPack.id[i] + "\\Res1\\Report\\run_results.xml");
                         }
                     }
                     else
                     {
-                        File.Copy(AppDomain.CurrentDomain.BaseDirectory + "/startTests.vbs",
-                            AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs", true);
-                        ReplaceInFile(AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs",
+                        File.Copy(AppDomain.CurrentDomain.BaseDirectory + "\\startTests.vbs",
+                            AppDomain.CurrentDomain.BaseDirectory + "test\\" + pack.TestsInPack.id[i] + ".vbs", true);
+                        ReplaceInFile(AppDomain.CurrentDomain.BaseDirectory + "test\\" + pack.TestsInPack.id[i] + ".vbs",
                             "AddressHost", pack.Stend);
 
                         if (pack.TestsInPack.browser[i].Equals("default") || pack.TestsInPack.browser[i].Equals("По умолчанию"))
-                            ReplaceInFile(AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs",
+                            ReplaceInFile(AppDomain.CurrentDomain.BaseDirectory + "test\\" + pack.TestsInPack.id[i] + ".vbs",
                                 "BrowserName", pack.Browser.ToUpper());
-                        else ReplaceInFile(AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs",
+                        else ReplaceInFile(AppDomain.CurrentDomain.BaseDirectory + "test\\" + pack.TestsInPack.id[i] + ".vbs",
                                 "BrowserName", pack.TestsInPack.browser[i].ToUpper());
 
                         using (FileStream fstream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs", FileMode.Append))
@@ -273,7 +276,7 @@ namespace Demon
                                     + "\\" + pack.TestsInPack.duplicate[i] + "\\Res" + i + "\\" + "\")");
                             fstream.Write(array, 0, array.Length);
 
-                            pack.FilesToStart.Add(AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs");
+                            pack.FilesToStart.Add(AppDomain.CurrentDomain.BaseDirectory + "test\\" + pack.TestsInPack.id[i] + ".vbs");
                             pack.ResultFolders.Add("Z:\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\") + "\\" + pack.TestsInPack.duplicate[i] + "\\Res" + i + "\\Report\\run_results.xml");
                         }
                     }

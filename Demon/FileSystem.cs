@@ -232,6 +232,7 @@ namespace Demon
             message.Add(stend);
 
             request = JsonConvert.SerializeObject(message);
+            Console.WriteLine("dependon = " + request + "\n");
             response = database.SendMsg("AddStatisticDemon", service, request);
             return "Failed";
         }
