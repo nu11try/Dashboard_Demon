@@ -59,12 +59,17 @@ namespace Demon
                     bytesRead += curDataSize;
                     bytesLeft -= curDataSize;
                 }
-                File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + "\\param.txt", data);
-                string param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "\\param.txt").Replace("\n", " ");
+                Random rnd = new Random();
+                string nameText = "\\" + rnd.Next() + ".txt";
+                File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, data);
+                string param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + nameText).Replace("\n", " ");
+                File.Delete(AppDomain.CurrentDomain.BaseDirectory + nameText);
                 string buf = controller.transformation(param);
-                File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + "\\param.txt", Encoding.UTF8.GetBytes(buf));
 
-                data = File.ReadAllBytes(AppDomain.CurrentDomain.BaseDirectory + "\\param.txt");
+                nameText = "\\" + rnd.Next() + ".txt";
+                File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, Encoding.UTF8.GetBytes(buf));
+                data = File.ReadAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText);
+                File.Delete(AppDomain.CurrentDomain.BaseDirectory + nameText);
                 byte[] dataLengthResponse = BitConverter.GetBytes(data.Length);
                 stream.Write(dataLengthResponse, 0, 4);
                 int bytesSent = 0;
@@ -78,7 +83,8 @@ namespace Demon
                 }
 
                 //data = Encoding.Unicode.GetBytes(buf);
-                //stream.Write(data, 0, data.Length);
+                //stream.Write(data, 0, data.Length);        
+                File.Delete(AppDomain.CurrentDomain.BaseDirectory + nameText);
             }
             catch (Exception ex)
             {
