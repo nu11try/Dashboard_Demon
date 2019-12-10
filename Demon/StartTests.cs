@@ -118,6 +118,10 @@ namespace Demon
                     while (Int32.Parse(pack.TestsInPack.restart[indexElement]) >= 0)
                     {
                         if (flager == 1) return;
+                        Message mess1 = new Message();
+                        mess1.Add(pack.IP, pack.TestsInPack.id[i], DateTime.Now.ToString());
+                        request = JsonConvert.SerializeObject(mess1);
+                        response = database.SendMsg("updateTestsNow", pack.Service, request);
                         FlagStarted = true;
                         string ver = "";
 
@@ -188,6 +192,11 @@ namespace Demon
                     indexElement++;
                     //File.Delete(pack.FilesToStart[indexElement]);
                 }
+                Message mess = new Message();
+                mess.Add(pack.IP, "not", DateTime.Now.ToString());
+                request = JsonConvert.SerializeObject(mess);
+                response = database.SendMsg("updateTestsNow", pack.Service, request);
+
                 message = new Message();
                 message.Add(pack.Service);
                 request = JsonConvert.SerializeObject(message);
@@ -207,6 +216,7 @@ namespace Demon
                 FlagStarted = true;
                 Finish(pack);
             });
+
         }
         public void Stop(object RESPONSE)
         {

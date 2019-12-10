@@ -22,8 +22,8 @@ Function test_start(a, b)
 	' Configure the Web application to use with this test
     qtApp.Test.Settings.Launchers("Web").Active = True
     qtApp.Test.Settings.Launchers("Web").SetLab "LocalBrowser"
-    qtApp.Test.Settings.Launchers("Web").Browser = "IE"
-    qtApp.Test.Settings.Launchers("Web").Address = "http://eb-arp-itest-sso.otr.ru:7777/udu-webcenter/faces"
+    qtApp.Test.Settings.Launchers("Web").Browser = "CHROME"
+    qtApp.Test.Settings.Launchers("Web").Address = "http://eb-emc-test-ufos.otr.ru:8889/sufdclient/index.zul"
     qtApp.Test.Settings.Launchers("Web").CloseOnExit = True
     qtApp.Test.Settings.Launchers("Web").RuntimeParameterization = False
     qtApp.visible=False ' qt ����������� � ����� ������
