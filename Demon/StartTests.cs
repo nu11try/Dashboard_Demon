@@ -69,11 +69,13 @@ namespace Demon
         private string response = "";
 
         private FreeRAM freeRAM = new FreeRAM();
+        public static int flager = 0;
 
         public void Init(object RESPONSE)
         {
+            flager = 0;
             string data = DateTime.Now.ToString("dd MMMM yyyy | HH:mm:ss");
-            
+
             Response = (Message)RESPONSE;
 
             if (Response.args.Count > 0)
@@ -112,8 +114,10 @@ namespace Demon
                 int indexElement = 0;
                 for (int i = 0; i < pack.TestsInPack.id.Count; i++)
                 {
+                    if (flager == 1) return;
                     while (Int32.Parse(pack.TestsInPack.restart[indexElement]) >= 0)
                     {
+                        if (flager == 1) return;
                         FlagStarted = true;
                         string ver = "";
 
@@ -126,13 +130,13 @@ namespace Demon
 
                         if (ver == "no_version")
                         {
-                            if (Int32.Parse(pack.TestsInPack.restart[indexElement]) < 0)                            
-                                pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "no_verson", pack.VersionStends[indexElement], pack.Stend));                            
-                            
+                            if (Int32.Parse(pack.TestsInPack.restart[indexElement]) < 0)
+                                pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "no_verson", pack.VersionStends[indexElement], pack.Stend));
+
                             pack.TestsInPack.restart[indexElement] = (Int32.Parse(pack.TestsInPack.restart[indexElement]) - 1).ToString();
                             FlagStarted = true;
                             continue;
-                        }                        
+                        }
 
                         if (!ver.Equals("no_version"))
                         {
@@ -199,13 +203,14 @@ namespace Demon
                 request = JsonConvert.SerializeObject(message);
                 Console.WriteLine("Update status pack = " + request);
                 response = database.SendMsg("UpdateStatusPack", pack.Service, request);
-                
+
                 FlagStarted = true;
                 Finish(pack);
-            });          
+            });
         }
         public void Stop(object RESPONSE)
         {
+            flager = 1;
             Response = (Message)RESPONSE;
             CloseProc();
             CloseUFT();
@@ -322,22 +327,31 @@ namespace Demon
         }
         public void TimeOut(object obj)
         {
-            Options options = (Options)obj;
-            string fileStarted = options.file;
-            PackStart pack = options.pack;
-            Console.WriteLine("Секунд прошло = " + SeconsdEnd);
-            if (SeconsdEnd >= Int32.Parse(pack.TestsInPack.time[pack.FilesToStart.IndexOf(fileStarted.ToString())]) && FlagStarted)
+            if (flager == 1)
             {
                 CloseProc();
                 CloseUFT();
                 FlagStarted = false;
             }
-            else if (!FlagStarted)
+            else
             {
-                try { SeconsdEnd = 0; } catch { }
-                FlagStarted = false;
+                Options options = (Options)obj;
+                string fileStarted = options.file;
+                PackStart pack = options.pack;
+                Console.WriteLine("Секунд прошло = " + SeconsdEnd);
+                if (SeconsdEnd >= Int32.Parse(pack.TestsInPack.time[pack.FilesToStart.IndexOf(fileStarted.ToString())]) && FlagStarted)
+                {
+                    CloseProc();
+                    CloseUFT();
+                    FlagStarted = false;
+                }
+                else if (!FlagStarted)
+                {
+                    try { SeconsdEnd = 0; } catch { }
+                    FlagStarted = false;
+                }
+                else SeconsdEnd++;
             }
-            else SeconsdEnd++;
         }
         public void CloseUFT()
         {
@@ -350,6 +364,18 @@ namespace Demon
         public void CloseProc()
         {
             try { foreach (Process proc in Process.GetProcessesByName("iexplore")) proc.Kill(); }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+            try { foreach (Process proc in Process.GetProcessesByName("firefox")) proc.Kill(); }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+            try { foreach (Process proc in Process.GetProcessesByName("JinnClient")) proc.Kill(); }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+            try { foreach (Process proc in Process.GetProcessesByName("java")) proc.Kill(); }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+            try { foreach (Process proc in Process.GetProcessesByName("plugin-container")) proc.Kill(); }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
 
             try { foreach (Process proc in Process.GetProcessesByName("phantomjs")) proc.Kill(); }

@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
-using System.Linq;
-using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Diagnostics;
 
 namespace Demon
 {
@@ -22,6 +20,7 @@ namespace Demon
         {
             request.Add(msg, service, "");
             bufJSON = JsonConvert.SerializeObject(request);
+            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "param.txt", bufJSON);
             return ConnectServer(bufJSON);
         }
 
@@ -29,6 +28,7 @@ namespace Demon
         {
             request.Add(msg, service, param);
             bufJSON = JsonConvert.SerializeObject(request);
+            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "param.txt", bufJSON);
             return ConnectServer(bufJSON);
         }
 
@@ -39,9 +39,7 @@ namespace Demon
             string response = "";
             try
             {
-                client = new TcpClient(address, port);
-                NetworkStream stream = client.GetStream();
-
+                /*
                 // преобразуем сообщение в массив байтов
                 byte[] data = new byte[] { };
                 data = Encoding.Unicode.GetBytes(json);
@@ -60,7 +58,48 @@ namespace Demon
 
                 builder.Clear();
                 stream.Close();
-                client.Close();
+                client.Close();*/
+
+                client = new TcpClient(address, port);
+                NetworkStream stream = client.GetStream();
+                byte[] data = File.ReadAllBytes(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\param.txt");
+                File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\param.txt");
+
+                int bufferSize = 1024;
+                byte[] dataLength = BitConverter.GetBytes(data.Length);
+                stream.Write(dataLength, 0, 4);
+                int bytesSent = 0;
+                int bytesLeft = data.Length;
+                while (bytesLeft > 0)
+                {
+                    int curDataSize = Math.Min(bufferSize, bytesLeft);
+                    stream.Write(data, bytesSent, curDataSize);
+                    bytesSent += curDataSize;
+                    bytesLeft -= curDataSize;
+                }
+                File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + "param.txt", data);
+                string param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "param.txt").Replace("\n", " ");
+                File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\param.txt");
+
+                byte[] fileSizeBytes = new byte[4];
+                int bytes = stream.Read(fileSizeBytes, 0, 4);
+                int dataLengthResponse = BitConverter.ToInt32(fileSizeBytes, 0);
+                bytesLeft = dataLengthResponse;
+                data = new byte[dataLengthResponse];
+                int bytesRead = 0;
+                while (bytesLeft > 0)
+                {
+                    int curDataSize = Math.Min(bufferSize, bytesLeft);
+                    if (client.Available < curDataSize)
+                        curDataSize = client.Available; //This saved me
+                    bytes = stream.Read(data, bytesRead, curDataSize);
+                    bytesRead += curDataSize;
+                    bytesLeft -= curDataSize;
+                }
+                File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + "param.txt", data);
+                param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + "param.txt").Replace("\n", " ");
+                File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\param.txt");
+                response = param;
             }
             catch (Exception ex)
             {

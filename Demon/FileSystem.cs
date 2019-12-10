@@ -192,7 +192,7 @@ namespace Demon
             message.Add(data);
             message.Add(version);
             message.Add(stend);
-
+            Console.WriteLine("sdfsdfsdfdfsdfsdfd");
             request = JsonConvert.SerializeObject(message);
             response = database.SendMsg("AddStatisticDemon", service, request);
 
@@ -200,40 +200,43 @@ namespace Demon
         }
         public string ResultTest(string service, string nameTest, string resultPath, string data, string options, string version, string stend)
         {
-            message = new Message();
-
-            message.Add(nameTest);
-            message.Add(nameTest);
-            message.Add("Failed");
-
-            if (options == "dependen_error")
+            if (StartTests.flager != 1)
             {
-                message.Add("DEPENDEN ERROR");
-                message.Add("DEPENDEN ERROR");
-                message.Add("DEPENDEN ERROR");
-                message.Add("DEPENDEN ERROR");
-            }
-            else if (options == "time_out")
-            {
-                message.Add("TIMEOUT");
-                message.Add("TIMEOUT");
-                message.Add("TIMEOUT");
-                message.Add("TIMEOUT");
-            }
-            else if (options == "no_verson")
-            {
-                message.Add("no_verson");
-                message.Add("no_verson");
-                message.Add("no_verson");
-                message.Add("no_verson");
-            }
-            message.Add(data);
-            message.Add(version);
-            message.Add(stend);
+                message = new Message();
 
-            request = JsonConvert.SerializeObject(message);
-            Console.WriteLine("dependon = " + request + "\n");
-            response = database.SendMsg("AddStatisticDemon", service, request);
+                message.Add(nameTest);
+                message.Add(nameTest);
+                message.Add("Failed");
+
+                if (options == "dependen_error")
+                {
+                    message.Add("DEPENDEN ERROR");
+                    message.Add("DEPENDEN ERROR");
+                    message.Add("DEPENDEN ERROR");
+                    message.Add("DEPENDEN ERROR");
+                }
+                else if (options == "time_out")
+                {
+                    message.Add("TIMEOUT");
+                    message.Add("TIMEOUT");
+                    message.Add("TIMEOUT");
+                    message.Add("TIMEOUT");
+                }
+                else if (options == "no_verson")
+                {
+                    message.Add("no_verson");
+                    message.Add("no_verson");
+                    message.Add("no_verson");
+                    message.Add("no_verson");
+                }
+                message.Add(data);
+                message.Add(version);
+                message.Add(stend);
+
+                request = JsonConvert.SerializeObject(message);
+                Console.WriteLine("dependon = " + request + "\n");
+                response = database.SendMsg("AddStatisticDemon", service, request);
+            }
             return "Failed";
         }
     }
