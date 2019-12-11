@@ -38,18 +38,21 @@ namespace Demon
         public XmlElement LoadFile(string resultPath)
         {
             XmlElement xRoot = null;
-            for (int i = 0; i < 10; i++)
+            if (StartTests.flager != 1)
             {
-                try
+                for (int i = 0; i < 10; i++)
                 {
-                    System.Threading.Thread.Sleep(1000);
-                    Console.WriteLine("Попытка загрузить файл");
-                    xDoc.Load(resultPath);
-                    xRoot = xDoc.DocumentElement;
-                    Console.WriteLine("Файл загружен");
-                    break;
+                    try
+                    {
+                        System.Threading.Thread.Sleep(1000);
+                        Console.WriteLine("Попытка загрузить файл");
+                        xDoc.Load(resultPath);
+                        xRoot = xDoc.DocumentElement;
+                        Console.WriteLine("Файл загружен");
+                        break;
+                    }
+                    catch { Console.WriteLine("Отказано"); }
                 }
-                catch { Console.WriteLine("Отказано"); }
             }
             return xRoot;
         }

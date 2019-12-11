@@ -118,12 +118,18 @@ namespace Demon
                     while (Int32.Parse(pack.TestsInPack.restart[indexElement]) >= 0)
                     {
                         if (flager == 1) return;
+                        Message message = new Message();
+                        DateTime time1 = DateTime.Now;
+                        int sec1 = time1.DayOfYear * 24 * 60 * 60 + time1.Hour * 60 * 60 + time1.Minute * 60 + time1.Second;
+                        message.Add(pack.IP, pack.TestsInPack.id[i], ""+ sec1);
+                        request = JsonConvert.SerializeObject(message);
+                        response = database.SendMsg("updateTestsNow", pack.Service, request);
                         FlagStarted = true;
                         string ver = "";
 
                         myReg = new Regex(@"http:\/\/.*\/");
                         ver = GetVersionStend(myReg.Match(pack.Stend).Value);
-                        Message message = new Message();
+                        message = new Message();
                         message.Add(pack.Service, ver, data);
                         pack.VersionStends.Add(ver);
                         Console.WriteLine("ver = " + ver);
@@ -189,6 +195,13 @@ namespace Demon
                     //File.Delete(pack.FilesToStart[indexElement]);
                 }
                 message = new Message();
+                DateTime time = DateTime.Now;
+                int sec = time.DayOfYear * 24 * 60 * 60 + time.Hour * 60 * 60 + time.Minute * 60 + time.Second;
+                message.Add(pack.IP, "not", "" + sec);
+                request = JsonConvert.SerializeObject(message);
+                response = database.SendMsg("updateTestsNow", pack.Service, request);
+
+                message = new Message();
                 message.Add(pack.Service);
                 request = JsonConvert.SerializeObject(message);
                 response = database.SendMsg("DeleteAutostart", pack.Service, request);
@@ -210,6 +223,12 @@ namespace Demon
         }
         public void Stop(object RESPONSE)
         {
+            Message message = new Message();
+            DateTime time = DateTime.Now;
+            int sec = time.DayOfYear * 24 * 60 * 60 + time.Hour * 60 * 60 + time.Minute * 60 + time.Second;
+            message.Add(Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString(), "not", "" + sec);
+            request = JsonConvert.SerializeObject(message);
+            response = database.SendMsg("updateTestsNow", "-", request);
             flager = 1;
             Response = (Message)RESPONSE;
             CloseProc();

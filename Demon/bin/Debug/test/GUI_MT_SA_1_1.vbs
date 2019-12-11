@@ -11,7 +11,7 @@ Function test_start(a, b)
 	 If Not qtApp.Launched Then 
 	 qtApp.Launch
 	 End If
-	qtApp.visible = False ' qt запускается в тихом режиме
+	qtApp.visible = False ' qt пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	
 	' Set UFT run options
 	qtApp.Options.Run.RunMode = "Fast"
@@ -22,17 +22,17 @@ Function test_start(a, b)
 	' Configure the Web application to use with this test
     qtApp.Test.Settings.Launchers("Web").Active = True
     qtApp.Test.Settings.Launchers("Web").SetLab "LocalBrowser"
-    qtApp.Test.Settings.Launchers("Web").Browser = BrowserName
-    qtApp.Test.Settings.Launchers("Web").Address = AddressHost
+    qtApp.Test.Settings.Launchers("Web").Browser = "CHROME"
+    qtApp.Test.Settings.Launchers("Web").Address = "http://eb-tse-demo-ufos.otr.ru:8889/sufdclient/index.zul"
     qtApp.Test.Settings.Launchers("Web").CloseOnExit = True
     qtApp.Test.Settings.Launchers("Web").RuntimeParameterization = False
-    qtApp.visible=False ' qt запускается в тихом режиме
+    qtApp.visible=False ' qt пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 	
 	' set run settings for the test
 	Set qtTest = qtApp.Test 
 	qtTest.Settings.Run.OnError = "Stop"
 	
-	' Настраиваем папку выгрузки результатов
+	' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	Set qtResultsOpt = CreateObject("QuickTest.RunResultsOptions") '
 	qtResultsOpt.ResultsLocation = b 
 	
@@ -49,14 +49,14 @@ Function test_start(a, b)
 	qtAutoExportResultsOpts.StepDetailsReportFormat = "Detailed"  ' Instruct qt to use a customized XSL file when exporting the run results data "Detailed" or "Short"
 	qtAutoExportResultsOpts.ExportForFailedRunsOnly = False ' Instruct qt to automatically export run results only for failed runs
 	
-	qtTest.Run qtResultsOpt ' Запускаем тест 
-	strStatus = qtTest.LastRunResults.Status 'Записываем Статус теста
-	strLastError = qtTest.LastRunResults.LastError 'Записываем ошибку теста
-	strTestName = qtTest.Name 'Записываем Имя теста
-	qtTest.Close 'Закрываем выполненый тест
-	qtApp.Quit 'Закрываем UFT
+	qtTest.Run qtResultsOpt ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ 
+	strStatus = qtTest.LastRunResults.Status 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+	strLastError = qtTest.LastRunResults.LastError 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+	strTestName = qtTest.Name 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
+	qtTest.Close 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+	qtApp.Quit 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ UFT
 	
-	' WScript.Echo(strTestName & "=" & strStatus & "-" & strLastError) 'Выводим в лог статус теста
+	' WScript.Echo(strTestName & "=" & strStatus & "-" & strLastError) 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 	
 	Set qtResultsOpt = Nothing ' Release the Run Results Options object
 	Set qtTest = Nothing ' Release the Test object
@@ -64,3 +64,4 @@ Function test_start(a, b)
 	Set qtAutoExportResultsOpts = Nothing ' Release the Automatically Export Report Configuration Options object
 	Set qtAutoExportResultsOpts = Nothing ' Release the Automatically Export Report Configuration Options object
 End Function
+Call test_start("\\172.31.197.220\ATST\\EXP2\Tests\GUI_MT_SA_1_1", "\\172.31.197.220\ATST\\EXP2\Tests\GUI_MT_SA_1_1\Res1\")

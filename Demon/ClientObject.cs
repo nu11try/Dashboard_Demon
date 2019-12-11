@@ -60,13 +60,13 @@ namespace Demon
                     bytesLeft -= curDataSize;
                 }
                 Random rnd = new Random();
-                string nameText = "\\" + rnd.Next() + ".txt";
+                string nameText = "\\" + rnd.Next() + rnd.Next() + ".txt";
                 File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, data);
                 string param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + nameText).Replace("\n", " ");
                 File.Delete(AppDomain.CurrentDomain.BaseDirectory + nameText);
                 string buf = controller.transformation(param);
 
-                nameText = "\\" + rnd.Next() + ".txt";
+                nameText = "\\" + rnd.Next() + rnd.Next() + ".txt";
                 File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, Encoding.UTF8.GetBytes(buf));
                 data = File.ReadAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText);
                 File.Delete(AppDomain.CurrentDomain.BaseDirectory + nameText);

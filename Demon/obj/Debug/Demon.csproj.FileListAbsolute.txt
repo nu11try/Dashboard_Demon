@@ -43,3 +43,8 @@ E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\Demon.application
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\obj\Debug\Demon.exe.manifest
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\obj\Debug\Demon.application
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\startTests.vbs
+C:\Users\User\Desktop\Dashboard_Demon\Demon\bin\Debug\startTests.vbs
+C:\Users\User\Desktop\Dashboard_Demon\Demon\bin\Debug\Demon.exe.manifest
+C:\Users\User\Desktop\Dashboard_Demon\Demon\bin\Debug\Demon.application
+C:\Users\User\Desktop\Dashboard_Demon\Demon\obj\Debug\Demon.exe.manifest
+C:\Users\User\Desktop\Dashboard_Demon\Demon\obj\Debug\Demon.application

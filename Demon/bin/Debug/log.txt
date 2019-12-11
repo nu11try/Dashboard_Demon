@@ -2,3 +2,7 @@
 2019-11-28 14:28:04 [START] -- [ярюрся мюанпю намнбкем] 3
 2019-11-28 14:29:40 [ERROR] -- [гюосяй реярнб] мЕ СДЮКНЯЭ МЮИРХ ВЮЯРЭ ОСРХ "C:\Users\User\Desktop\Dashboard_Demon\Demon\bin\Debug\test/GUI_MT_CLS_1_2.vbs".
 2019-11-28 14:31:07 [START] -- [ярюрся мюанпю намнбкем] 3
+2019-12-11 9:51:20 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_SA_1_1.vbs
+2019-12-11 9:51:21 [START] -- [ярюрся мюанпю намнбкем] wda
+2019-12-11 10:29:03 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_SA_1_1.vbs
+2019-12-11 10:29:04 [START] -- [ярюрся мюанпю намнбкем] wda

@@ -14,9 +14,8 @@ namespace Demon
         string bufJSON;
 
         const int port = 8888;
-        const string address = "172.17.42.40";
+        const string address = "172.31.197.89";
 
-        string nameText;
         Random rnd = new Random();
 
         public string SendMsg(string msg, string service)
@@ -24,11 +23,8 @@ namespace Demon
             
             request.Add(msg, service, "");
             bufJSON = JsonConvert.SerializeObject(request);
-            nameText = "\\" + rnd.Next() + ".txt";
-            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "param.txt", bufJSON);
-            return ConnectServer(bufJSON);
             Random rnd = new Random();
-            string nameText = "\\" + rnd.Next() + ".txt";
+            string nameText = "\\" + rnd.Next() + rnd.Next() + ".txt";
             File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + nameText, bufJSON);
             return ConnectServer(bufJSON, nameText);
         }
@@ -37,12 +33,8 @@ namespace Demon
         {
             request.Add(msg, service, param);
             bufJSON = JsonConvert.SerializeObject(request);
-
-            nameText = "\\" + rnd.Next() + ".txt";
-            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "param.txt", bufJSON);
-            return ConnectServer(bufJSON);
             Random rnd = new Random();
-            string nameText = "\\" + rnd.Next() + ".txt";
+            string nameText = "\\" + rnd.Next() + rnd.Next() + ".txt";
             File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + nameText, bufJSON);
             return ConnectServer(bufJSON, nameText);
 
@@ -95,12 +87,12 @@ namespace Demon
                 }
 
                 Random rnd = new Random();
-                nameText = "\\" + rnd.Next() + ".txt";
+                nameText = "\\" + rnd.Next() + rnd.Next() + ".txt";
                 File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, data);
                 string param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + nameText).Replace("\n", " ");
                 File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
 
-                nameText = "\\" + rnd.Next() + ".txt";
+                nameText = "\\" + rnd.Next() + rnd.Next() + ".txt";
                 byte[] fileSizeBytes = new byte[4];
                 int bytes = stream.Read(fileSizeBytes, 0, 4);
                 int dataLengthResponse = BitConverter.ToInt32(fileSizeBytes, 0);
@@ -117,7 +109,7 @@ namespace Demon
                     bytesLeft -= curDataSize;
                 }
                 rnd = new Random();
-                nameText = "\\" + rnd.Next() + ".txt";
+                nameText = "\\" + rnd.Next() + rnd.Next() + ".txt";
                 File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, data);
                 param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + nameText).Replace("\n", " ");
                 File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
