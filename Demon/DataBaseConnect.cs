@@ -14,17 +14,16 @@ namespace Demon
         string bufJSON;
 
         const int port = 8888;
-        const string address = "172.31.197.89";
+        //const string address = "172.31.197.89";
+        const string address = "172.31.197.232";
 
-        Random rnd = new Random();
+        string nameText = "";
 
         public string SendMsg(string msg, string service)
         {
-            
             request.Add(msg, service, "");
             bufJSON = JsonConvert.SerializeObject(request);
-            Random rnd = new Random();
-            string nameText = "\\" + rnd.Next() + rnd.Next() + ".txt";
+            nameText = DateTime.Now.ToString("ddMMyyyyhhmmssfff");
             File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + nameText, bufJSON);
             return ConnectServer(bufJSON, nameText);
         }
@@ -33,11 +32,9 @@ namespace Demon
         {
             request.Add(msg, service, param);
             bufJSON = JsonConvert.SerializeObject(request);
-            Random rnd = new Random();
-            string nameText = "\\" + rnd.Next() + rnd.Next() + ".txt";
+            nameText = DateTime.Now.ToString("ddMMyyyyhhmmfffss");
             File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + nameText, bufJSON);
             return ConnectServer(bufJSON, nameText);
-
         }
 
         private string ConnectServer(string json, string nameText)
@@ -47,30 +44,10 @@ namespace Demon
             string response = "";
             try
             {
-                /*
-                // преобразуем сообщение в массив байтов
-                byte[] data = new byte[] { };
-                data = Encoding.Unicode.GetBytes(json);
-
-                // отправка сообщения
-                stream.Write(data, 0, data.Length);
-
-                // получаем ответ
-                data = new byte[9999999]; // буфер для получаемых данных
-
-                int bytes = 0;
-
-                bytes = stream.Read(data, 0, data.Length);
-                builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
-                response = builder.ToString();
-
-                builder.Clear();
-                stream.Close();
-                client.Close();*/
-
                 client = new TcpClient(address, port);
                 NetworkStream stream = client.GetStream();
                 byte[] data = File.ReadAllBytes(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
+
                 File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
 
                 int bufferSize = 1024;
@@ -85,14 +62,13 @@ namespace Demon
                     bytesSent += curDataSize;
                     bytesLeft -= curDataSize;
                 }
+                nameText = DateTime.Now.ToString("MMddyyyyhhmmssfff");
 
-                Random rnd = new Random();
-                nameText = "\\" + rnd.Next() + rnd.Next() + ".txt";
                 File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, data);
                 string param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + nameText).Replace("\n", " ");
                 File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
 
-                nameText = "\\" + rnd.Next() + rnd.Next() + ".txt";
+
                 byte[] fileSizeBytes = new byte[4];
                 int bytes = stream.Read(fileSizeBytes, 0, 4);
                 int dataLengthResponse = BitConverter.ToInt32(fileSizeBytes, 0);
@@ -108,8 +84,9 @@ namespace Demon
                     bytesRead += curDataSize;
                     bytesLeft -= curDataSize;
                 }
-                rnd = new Random();
-                nameText = "\\" + rnd.Next() + rnd.Next() + ".txt";
+
+                nameText = DateTime.Now.ToString("ddyyyyhhMMmmssfff");
+
                 File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, data);
                 param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + nameText).Replace("\n", " ");
                 File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
@@ -118,6 +95,7 @@ namespace Demon
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                Environment.Exit(0);
             }
             request = new Request();
             bufJSON = "";

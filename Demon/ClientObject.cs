@@ -14,6 +14,7 @@ namespace Demon
         Controller controller = new Controller();        
 
         byte[] data;
+        string nameText = "";
         public ClientObject(TcpClient tcpClient)
         {
             client = tcpClient;
@@ -24,25 +25,7 @@ namespace Demon
             NetworkStream stream = null;
             try
             {
-               
                 stream = client.GetStream();
-                /*
-                stream = client.GetStream();
-                data = new byte[9999999]; // буфер для получаемых данных
-                                          // получаем сообщение
-                StringBuilder builder = new StringBuilder();
-                int bytes = 0;                
-                do
-                {
-                    bytes = stream.Read(data, 0, data.Length);
-                    builder.Append(Encoding.Unicode.GetString(data, 0, bytes));
-                }
-                while (stream.DataAvailable);                
-                string buf = controller.transformation(builder.ToString());
-                data = Encoding.Unicode.GetBytes(buf);
-                stream.Write(data, 0, data.Length);
-                builder.Clear();*/
-
                 byte[] fileSizeBytes = new byte[4];
                 int bytes = stream.Read(fileSizeBytes, 0, 4);
                 int dataLength = BitConverter.ToInt32(fileSizeBytes, 0);
@@ -59,14 +42,13 @@ namespace Demon
                     bytesRead += curDataSize;
                     bytesLeft -= curDataSize;
                 }
-                Random rnd = new Random();
-                string nameText = "\\" + rnd.Next() + rnd.Next() + ".txt";
+                nameText = DateTime.Now.ToString("ddMMyyyyhhmmssfff");
                 File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, data);
                 string param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + nameText).Replace("\n", " ");
                 File.Delete(AppDomain.CurrentDomain.BaseDirectory + nameText);
                 string buf = controller.transformation(param);
 
-                nameText = "\\" + rnd.Next() + rnd.Next() + ".txt";
+                nameText = DateTime.Now.ToString("ddMMyyyyhhmmfffss");
                 File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, Encoding.UTF8.GetBytes(buf));
                 data = File.ReadAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText);
                 File.Delete(AppDomain.CurrentDomain.BaseDirectory + nameText);
@@ -82,8 +64,6 @@ namespace Demon
                     bytesLeft -= curDataSize;
                 }
 
-                //data = Encoding.Unicode.GetBytes(buf);
-                //stream.Write(data, 0, data.Length);        
                 File.Delete(AppDomain.CurrentDomain.BaseDirectory + nameText);
             }
             catch (Exception ex)

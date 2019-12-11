@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Demon.exe" size="155136">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Demon.exe" size="155104">
       <assemblyIdentity name="Demon" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>8/5y8wpKflHV109ni4swtah+s6j/EESCTAfAo+iwnAI=</dsig:DigestValue>
+        <dsig:DigestValue>zur5llcUirPQSpctRuHUCl1rlynuINVQ8iKrNl4/NTU=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
