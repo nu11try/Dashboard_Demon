@@ -42,13 +42,13 @@ namespace Demon
                     bytesRead += curDataSize;
                     bytesLeft -= curDataSize;
                 }
-                nameText = DateTime.Now.ToString("ddMMyyyyhhmmssfff");
+                nameText = "\\" + DateTime.Now.ToString("ddMMyyyyhhmmssfff");
                 File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, data);
                 string param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + nameText).Replace("\n", " ");
                 File.Delete(AppDomain.CurrentDomain.BaseDirectory + nameText);
                 string buf = controller.transformation(param);
 
-                nameText = DateTime.Now.ToString("ddMMyyyyhhmmfffss");
+                nameText = "\\" + DateTime.Now.ToString("ddMMyyyyhhmmfffss");
                 File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, Encoding.UTF8.GetBytes(buf));
                 data = File.ReadAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText);
                 File.Delete(AppDomain.CurrentDomain.BaseDirectory + nameText);
