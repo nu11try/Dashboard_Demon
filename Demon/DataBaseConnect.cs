@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.IO;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Demon
 {
@@ -17,23 +18,47 @@ namespace Demon
         //const string address = "172.31.197.89";
         const string address = "172.31.197.232";
 
+        byte[] data;
+        string param;
         string nameText = "";
 
         public string SendMsg(string msg, string service)
         {
-            request.Add(msg, service, "");
-            bufJSON = JsonConvert.SerializeObject(request);
-            nameText = "\\" + DateTime.Now.ToString("ddMMyyyyhhmmssfff");
-            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + nameText, bufJSON);
+            while (true)
+            {
+                try
+                {
+                    request.Add(msg, service, "");
+                    bufJSON = JsonConvert.SerializeObject(request);
+                    nameText = "\\" + DateTime.Now.ToString("ddMMyyyyhhmmssfff");
+                    File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + nameText, bufJSON);
+                    break;
+                }
+                catch
+                {
+                    Task.Delay(1000);
+                }
+            }
             return ConnectServer(bufJSON, nameText);
         }
 
         public string SendMsg(string msg, string service, string param)
         {
-            request.Add(msg, service, param);
-            bufJSON = JsonConvert.SerializeObject(request);
-            nameText = "\\" + DateTime.Now.ToString("ddMMyyyyhhmmfffss");
-            File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + nameText, bufJSON);
+            while (true)
+            {
+                try
+                {
+                    request.Add(msg, service, param);
+                    bufJSON = JsonConvert.SerializeObject(request);
+                    nameText = "\\" + DateTime.Now.ToString("ddMMhhyyyymmfffss");
+                    File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + nameText, bufJSON);
+                    break;
+                }
+                catch
+                {
+                    Task.Delay(1000);
+                }
+            }
             return ConnectServer(bufJSON, nameText);
         }
 
@@ -46,9 +71,20 @@ namespace Demon
             {
                 client = new TcpClient(address, port);
                 NetworkStream stream = client.GetStream();
-                byte[] data = File.ReadAllBytes(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
 
-                File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
+                while (true)
+                {
+                    try
+                    {
+                        data = File.ReadAllBytes(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
+                        File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
+                        break;
+                    }
+                    catch
+                    {
+                        Task.Delay(1000);
+                    }
+                }
 
                 int bufferSize = 1024;
                 byte[] dataLength = BitConverter.GetBytes(data.Length);
@@ -64,9 +100,20 @@ namespace Demon
                 }
                 nameText = "\\" + DateTime.Now.ToString("MMddyyyyhhmmssfff");
 
-                File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, data);
-                string param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + nameText).Replace("\n", " ");
-                File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
+                while (true)
+                {
+                    try
+                    {
+                        File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, data);
+                        param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + nameText).Replace("\n", " ");
+                        File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
+                        break;
+                    }
+                    catch
+                    {
+                        Task.Delay(1000);
+                    }
+                }
 
 
                 byte[] fileSizeBytes = new byte[4];
@@ -87,9 +134,20 @@ namespace Demon
 
                 nameText = "\\" + DateTime.Now.ToString("ddyyyyhhMMmmssfff");
 
-                File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, data);
-                param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + nameText).Replace("\n", " ");
-                File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
+                while (true)
+                {
+                    try
+                    {
+                        File.WriteAllBytes(AppDomain.CurrentDomain.BaseDirectory + nameText, data);
+                        param = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + nameText).Replace("\n", " ");
+                        File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
+                        break;
+                    }
+                    catch
+                    {
+                        Task.Delay(1000);
+                    }
+                }
                 response = param;
             }
             catch (Exception ex)
