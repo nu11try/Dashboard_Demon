@@ -30,7 +30,7 @@
     <ProductName>Demon</ProductName>
     <PublisherName>OTR</PublisherName>
     <SuiteName>Demon</SuiteName>
-    <ApplicationRevision>23</ApplicationRevision>
+    <ApplicationRevision>30</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -70,6 +70,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>demon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">

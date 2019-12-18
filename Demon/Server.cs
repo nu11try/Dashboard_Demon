@@ -27,13 +27,14 @@ namespace Demon
 
         static void Main(string[] args)
         {
-            ip = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
+            ip = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();            
             try
             {
                 listener = new TcpListener(IPAddress.Parse(ip), port);
                 listener.Start();
                 Console.WriteLine("===================================");
                 Console.WriteLine("Произведен запуск демона для Asylum!");
+                Console.WriteLine("IP машины - " + ip);
                 Console.WriteLine("\n");
                 Console.WriteLine("Демон готов принимать поручения");
                 Console.WriteLine("==================================");

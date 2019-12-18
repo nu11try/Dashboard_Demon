@@ -271,8 +271,8 @@ namespace Demon
 
                         using (FileStream fstream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs", FileMode.Append))
                         {
-                            byte[] array = System.Text.Encoding.Default.GetBytes("Call test_start(\"" + "\\" + "\\172.31.197.220\\ATST\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
-                                    + "\\" + pack.TestsInPack.id[i] + "\", \"" + "\\" + "\\172.31.197.220\\ATST\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
+                            byte[] array = System.Text.Encoding.Default.GetBytes("Call test_start(\"" + "Z:\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
+                                    + "\\" + pack.TestsInPack.id[i] + "\", \"" + "Z:\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
                                     + "\\" + pack.TestsInPack.id[i] + "\\Res1\\" + "\")");
                             fstream.Write(array, 0, array.Length);
 
@@ -295,8 +295,8 @@ namespace Demon
 
                         using (FileStream fstream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs", FileMode.Append))
                         {
-                            byte[] array = System.Text.Encoding.Default.GetBytes("Call test_start(\"" + "\\" + "\\172.31.197.220\\ATST\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
-                                    + "\\" + pack.TestsInPack.duplicate[i] + "\", \"" + "\\" + "\\172.31.197.220\\ATST\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
+                            byte[] array = System.Text.Encoding.Default.GetBytes("Call test_start(\"" + "Z:\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
+                                    + "\\" + pack.TestsInPack.duplicate[i] + "\", \"" + "Z:\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
                                     + "\\" + pack.TestsInPack.duplicate[i] + "\\Res" + i + "\\" + "\")");
                             fstream.Write(array, 0, array.Length);
 

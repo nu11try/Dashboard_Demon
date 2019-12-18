@@ -6,3 +6,5 @@
 2019-12-11 9:51:21 [START] -- [ярюрся мюанпю намнбкем] wda
 2019-12-11 10:29:03 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_SA_1_1.vbs
 2019-12-11 10:29:04 [START] -- [ярюрся мюанпю намнбкем] wda
+17.12.2019 16:26:27 [START] -- [гюосяй реярнб] E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_CLS_1_1.vbs
+17.12.2019 16:26:27 [START] -- [ярюрся мюанпю намнбкем] cxvSv
