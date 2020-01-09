@@ -8,3 +8,10 @@
 2019-12-11 10:29:04 [START] -- [ярюрся мюанпю намнбкем] wda
 17.12.2019 16:26:27 [START] -- [гюосяй реярнб] E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_CLS_1_1.vbs
 17.12.2019 16:26:27 [START] -- [ярюрся мюанпю намнбкем] cxvSv
+19.12.2019 11:41:56 [START] -- [гюосяй реярнб] E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_CLS_1_1.vbs
+19.12.2019 11:42:04 [START] -- [гюосяй реярнб] E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_CLS_1_2.vbs
+19.12.2019 11:42:13 [START] -- [гюосяй реярнб] E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_CLS_1_3.vbs
+19.12.2019 11:42:23 [START] -- [гюосяй реярнб] E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_CLS_1_4.vbs
+19.12.2019 11:42:32 [START] -- [гюосяй реярнб] E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_CLS_1_5.vbs
+19.12.2019 11:42:40 [START] -- [гюосяй реярнб] E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_CLS_1_6.vbs
+19.12.2019 11:42:43 [START] -- [ярюрся мюанпю намнбкем] йНЛОНМЕМР кя_MT_1_бЕДЕМХЕ ЯУЕЛШ ЙННОЕПЮЖХХ

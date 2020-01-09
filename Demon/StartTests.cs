@@ -180,13 +180,20 @@ namespace Demon
                             }
                             catch
                             {
-                                pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "time_out", pack.VersionStends[indexElement], pack.Stend));
+                                try
+                                {
+                                    pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "time_out", pack.VersionStends[indexElement], pack.Stend));
+                                }
+                                catch
+                                {
+                                    Console.WriteLine("Я НАШЕЛ ТЕБЯ ЕБУЧАЯ БАГА!!!!");
+                                }
                                 FlagStarted = true;
                                 continue;
                             }
                         }
                     }
-
+                    Console.WriteLine("ТЕСТ ИДЕТ ИЛИ НЕТ, ХЗ");
                     Console.WriteLine("Тест " + pack.FilesToStart[indexElement] + " выполнен!");
                     logger.WriteLog("[ЗАПУСК ТЕСТОВ] " + pack.FilesToStart[indexElement], "START");
                     FlagStarted = true;
@@ -271,13 +278,13 @@ namespace Demon
 
                         using (FileStream fstream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs", FileMode.Append))
                         {
-                            byte[] array = System.Text.Encoding.Default.GetBytes("Call test_start(\"" + "Z:\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
-                                    + "\\" + pack.TestsInPack.id[i] + "\", \"" + "Z:\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
+                            byte[] array = System.Text.Encoding.Default.GetBytes("Call test_start(\"" + "Z:" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
+                                    + "\\" + pack.TestsInPack.id[i] + "\", \"" + "Z:" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
                                     + "\\" + pack.TestsInPack.id[i] + "\\Res1\\" + "\")");
                             fstream.Write(array, 0, array.Length);
 
                             pack.FilesToStart.Add(AppDomain.CurrentDomain.BaseDirectory + "test\\" + pack.TestsInPack.id[i] + ".vbs");
-                            pack.ResultFolders.Add("Z:\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\") + "\\" + pack.TestsInPack.id[i] + "\\Res1\\Report\\run_results.xml");
+                            pack.ResultFolders.Add("Z:" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\") + "\\" + pack.TestsInPack.id[i] + "\\Res1\\Report\\run_results.xml");
                         }
                     }
                     else
@@ -295,13 +302,13 @@ namespace Demon
 
                         using (FileStream fstream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "test/" + pack.TestsInPack.id[i] + ".vbs", FileMode.Append))
                         {
-                            byte[] array = System.Text.Encoding.Default.GetBytes("Call test_start(\"" + "Z:\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
-                                    + "\\" + pack.TestsInPack.duplicate[i] + "\", \"" + "Z:\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
+                            byte[] array = System.Text.Encoding.Default.GetBytes("Call test_start(\"" + "Z:" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
+                                    + "\\" + pack.TestsInPack.duplicate[i] + "\", \"" + "Z:" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\")
                                     + "\\" + pack.TestsInPack.duplicate[i] + "\\Res" + i + "\\" + "\")");
                             fstream.Write(array, 0, array.Length);
 
                             pack.FilesToStart.Add(AppDomain.CurrentDomain.BaseDirectory + "test\\" + pack.TestsInPack.id[i] + ".vbs");
-                            pack.ResultFolders.Add("Z:\\" + pack.PathToTests.Replace("Z:\\" + "\\", "\\").Replace("\\" + "\\", "\\") + "\\" + pack.TestsInPack.duplicate[i] + "\\Res" + i + "\\Report\\run_results.xml");
+                            pack.ResultFolders.Add("Z:\\" + pack.PathToTests.Replace("Z:" + "\\", "\\").Replace("\\" + "\\", "\\") + "\\" + pack.TestsInPack.duplicate[i] + "\\Res" + i + "\\Report\\run_results.xml");
                         }
                     }
                 }
@@ -341,7 +348,7 @@ namespace Demon
             options.file = file;
             options.pack = pack;
             timer = new Timer(tm, options, 1000, 1000);
-
+            Console.WriteLine("pack = " + pack.Name + " pack.Restart = " + pack.Restart);
             StartTest.WaitForExit();
         }
         public void TimeOut(object obj)

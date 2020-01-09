@@ -19,7 +19,7 @@
     <Install>true</Install>
     <InstallFrom>Unc</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
-    <UpdateMode>Background</UpdateMode>
+    <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>30</UpdateInterval>
     <UpdateIntervalUnits>Hours</UpdateIntervalUnits>
     <UpdatePeriodically>false</UpdatePeriodically>
@@ -30,7 +30,7 @@
     <ProductName>Demon</ProductName>
     <PublisherName>OTR</PublisherName>
     <SuiteName>Demon</SuiteName>
-    <ApplicationRevision>30</ApplicationRevision>
+    <ApplicationRevision>36</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -107,6 +107,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Awake.cs" />
     <Compile Include="ClientObject.cs" />
     <Compile Include="DataBaseConnect.cs" />
     <Compile Include="FileSystem.cs" />

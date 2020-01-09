@@ -195,9 +195,9 @@ namespace Demon
             message.Add(data);
             message.Add(version);
             message.Add(stend);
-            Console.WriteLine("sdfsdfsdfdfsdfsdfd");
             request = JsonConvert.SerializeObject(message);
             response = database.SendMsg("AddStatisticDemon", service, request);
+            message = new Message();
 
             return result;
         }
@@ -239,6 +239,7 @@ namespace Demon
                 request = JsonConvert.SerializeObject(message);
                 Console.WriteLine("dependon = " + request + "\n");
                 response = database.SendMsg("AddStatisticDemon", service, request);
+                message = new Message();
             }
             return "Failed";
         }

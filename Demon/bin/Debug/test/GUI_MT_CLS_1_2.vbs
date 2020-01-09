@@ -22,8 +22,8 @@ Function test_start(a, b)
 	' Configure the Web application to use with this test
     qtApp.Test.Settings.Launchers("Web").Active = True
     qtApp.Test.Settings.Launchers("Web").SetLab "LocalBrowser"
-    qtApp.Test.Settings.Launchers("Web").Browser = "IE"
-    qtApp.Test.Settings.Launchers("Web").Address = "http://eb-arp-itest-sso.otr.ru:7777/udu-webcenter/faces"
+    qtApp.Test.Settings.Launchers("Web").Browser = "CHROME"
+    qtApp.Test.Settings.Launchers("Web").Address = "http://eb-tse-rls-ufos.otr.ru:8889/sufdclient/index.zul "
     qtApp.Test.Settings.Launchers("Web").CloseOnExit = True
     qtApp.Test.Settings.Launchers("Web").RuntimeParameterization = False
     qtApp.visible=False ' qt ����������� � ����� ������
@@ -64,4 +64,4 @@ Function test_start(a, b)
 	Set qtAutoExportResultsOpts = Nothing ' Release the Automatically Export Report Configuration Options object
 	Set qtAutoExportResultsOpts = Nothing ' Release the Automatically Export Report Configuration Options object
 End Function
-Call test_start("\\172.31.197.220\ATST\\TSE1\Tests\GUI_MT_CLS_1_2", "\\172.31.197.220\ATST\\TSE1\Tests\GUI_MT_CLS_1_2\Res1\")
+Call test_start("Z:\\TSE_4_0\TSE1\Tests\GUI_MT_CLS_1_2", "Z:\\TSE_4_0\TSE1\Tests\GUI_MT_CLS_1_2\Res1\")

@@ -16,7 +16,7 @@ namespace Demon
 
         const int port = 8888;
         //const string address = "172.31.197.89";
-        const string address = "172.31.197.232";
+        const string address = "172.31.191.200";
         //const string address = "127.0.0.1";
 
         byte[] data;

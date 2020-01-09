@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Demon
 {
@@ -16,9 +15,6 @@ namespace Demon
         static string ip = "";
 
         static TcpListener listener;
-        static DataBaseConnect database = new DataBaseConnect();
-        static SQLiteCommand command;
-        static string query = "";
 
         static class Data
         {
@@ -44,14 +40,25 @@ namespace Demon
                     Directory.CreateDirectory(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\test\\");
                 }
 
+                try
+                {
+                    Awake awake = new Awake();
+                    AwakeDemon(awake);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Таск на пробуждение отвалился по причине " + ex.Message);
+                }
+
                 while (true)
                 {
                     TcpClient client = listener.AcceptTcpClient();
                     ClientObject clientObject = new ClientObject(client);
 
                     // создаем новый поток для обслуживания нового клиента
-                    Thread clientThread = new Thread(new ThreadStart(clientObject.Process));
-                    clientThread.Start();
+                    //Thread clientThread = new Thread(new ThreadStart(clientObject.Process));
+                    //clientThread.Start();
+                    ConnectClient(clientObject);
                 }
             }
             catch (Exception ex)
@@ -64,7 +71,15 @@ namespace Demon
                     listener.Stop();
             }
         }
-    }
+        static async void ConnectClient(ClientObject clientObject)
+        {
+            await Task.Run(()=>clientObject.Process());
+        }
+        static async void AwakeDemon(Awake awake)
+        {
+            await Task.Run(() => awake.Init());
+        }
+    }    
     public class Message
     {
         public Message() { args = new List<string>(); }
