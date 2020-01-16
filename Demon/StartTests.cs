@@ -137,8 +137,12 @@ namespace Demon
                         if (ver == "no_version")
                         {
                             if (Int32.Parse(pack.TestsInPack.restart[indexElement]) < 0)
-                                pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "no_verson", pack.VersionStends[indexElement], pack.Stend));
-
+                            {
+                                if (!pack.ResultTest.ContainsKey(pack.TestsInPack.id[indexElement]))
+                                    pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "no_verson", pack.VersionStends[indexElement], pack.Stend));
+                                else
+                                    pack.ResultTest[pack.TestsInPack.id[indexElement]] = fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "no_verson", pack.VersionStends[indexElement], pack.Stend);
+                            }
                             pack.TestsInPack.restart[indexElement] = (Int32.Parse(pack.TestsInPack.restart[indexElement]) - 1).ToString();
                             FlagStarted = true;
                             continue;
@@ -151,7 +155,11 @@ namespace Demon
                             {
                                 if (pack.ResultTest[bufDependons].Equals("Failed"))
                                 {
-                                    pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "dependen_error", pack.VersionStends[indexElement], pack.Stend));
+                                    if (!pack.ResultTest.ContainsKey(pack.TestsInPack.id[indexElement]))
+                                        pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "dependen_error", pack.VersionStends[indexElement], pack.Stend));
+                                    else
+                                        pack.ResultTest[pack.TestsInPack.id[indexElement]] = fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "dependen_error", pack.VersionStends[indexElement], pack.Stend);
+                                    
                                     FlagStarted = true;
                                     break;
                                 }
@@ -166,14 +174,22 @@ namespace Demon
                             {
                                 if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Passed") || fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Warning"))
                                 {
-                                    pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));
+                                    if (!pack.ResultTest.ContainsKey(pack.TestsInPack.id[indexElement]))
+                                        pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));                                        
+                                    else           
+                                        pack.ResultTest[pack.TestsInPack.id[indexElement]] = fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend);
                                     FlagStarted = true;
                                     break;
                                 }
                                 if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Failed"))
                                 {
                                     if (Int32.Parse(pack.TestsInPack.restart[indexElement]) < 0)
-                                        pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));
+                                    {
+                                        if (!pack.ResultTest.ContainsKey(pack.TestsInPack.id[indexElement]))
+                                            pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));
+                                        else
+                                            pack.ResultTest[pack.TestsInPack.id[indexElement]] = fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend);
+                                    }
                                     FlagStarted = true;
                                     continue;
                                 }
@@ -181,19 +197,21 @@ namespace Demon
                             catch
                             {
                                 try
-                                {
-                                    pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "time_out", pack.VersionStends[indexElement], pack.Stend));
+                                {                                    
+                                    if (!pack.ResultTest.ContainsKey(pack.TestsInPack.id[indexElement]))
+                                        pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "time_out", pack.VersionStends[indexElement], pack.Stend));
+                                    else
+                                        pack.ResultTest[pack.TestsInPack.id[indexElement]] = fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "time_out", pack.VersionStends[indexElement], pack.Stend);
                                 }
-                                catch
+                                catch (Exception ex)
                                 {
-                                    Console.WriteLine("Я НАШЕЛ ТЕБЯ ЕБУЧАЯ БАГА!!!!");
+                                    Console.WriteLine("Ошибка! " + ex.Message);
                                 }
                                 FlagStarted = true;
                                 continue;
                             }
                         }
                     }
-                    Console.WriteLine("ТЕСТ ИДЕТ ИЛИ НЕТ, ХЗ");
                     Console.WriteLine("Тест " + pack.FilesToStart[indexElement] + " выполнен!");
                     logger.WriteLog("[ЗАПУСК ТЕСТОВ] " + pack.FilesToStart[indexElement], "START");
                     FlagStarted = true;
