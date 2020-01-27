@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Deployment.Application;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
@@ -31,7 +32,14 @@ namespace Demon
                 Console.WriteLine("===================================");
                 Console.WriteLine("Произведен запуск демона для Asylum!");
                 Console.WriteLine("IP машины - " + ip);
-                Console.WriteLine("\n");
+                try
+                {
+                    Console.WriteLine("Версия - " + ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString());
+                }
+                catch
+                {
+                    Console.WriteLine("Версия - unknown");
+                }
                 Console.WriteLine("Демон готов принимать поручения");
                 Console.WriteLine("==================================");
 

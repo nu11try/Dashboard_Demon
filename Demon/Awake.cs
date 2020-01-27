@@ -45,10 +45,6 @@ namespace Demon
             byte[] buffer = Encoding.ASCII.GetBytes(data);
             int timeout = 120;
             PingReply reply = pingSender.Send(Dns.GetHostByName(Dns.GetHostName()).AddressList[0], timeout, buffer, options);
-            if (reply.Status == IPStatus.Success)
-            {
-                Console.WriteLine("Попингуемся");
-            }
         }
     }
 }

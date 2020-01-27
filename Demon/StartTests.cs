@@ -439,6 +439,9 @@ namespace Demon
 
             try { foreach (Process proc in Process.GetProcessesByName("wscript")) proc.Kill(); }
             catch (Exception ex) { Console.WriteLine(ex.Message); }
+
+            try { foreach (Process proc in Process.GetProcessesByName("JinnSignExtensionProvider")) proc.Kill(); }
+            catch (Exception ex) { Console.WriteLine(ex.Message); }
         }
         public void DeleteResDirectories(String nameTest, String dir)
         {
