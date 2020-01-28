@@ -136,7 +136,7 @@ namespace Demon
 
                         if (ver == "no_version")
                         {
-                            if (Int32.Parse(pack.TestsInPack.restart[indexElement]) < 0)
+                            if (Int32.Parse(pack.TestsInPack.restart[indexElement]) == 0)
                             {
                                 if (!pack.ResultTest.ContainsKey(pack.TestsInPack.id[indexElement]))
                                     pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "no_verson", pack.VersionStends[indexElement], pack.Stend));

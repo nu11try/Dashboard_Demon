@@ -30,6 +30,8 @@
     <ProductName>Demon</ProductName>
     <PublisherName>OTR</PublisherName>
     <SuiteName>Demon</SuiteName>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>publish.htm</WebPage>
     <ApplicationRevision>46</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>

@@ -15,3 +15,75 @@
 19.12.2019 11:42:32 [START] -- [гюосяй реярнб] E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_CLS_1_5.vbs
 19.12.2019 11:42:40 [START] -- [гюосяй реярнб] E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_CLS_1_6.vbs
 19.12.2019 11:42:43 [START] -- [ярюрся мюанпю намнбкем] йНЛОНМЕМР кя_MT_1_бЕДЕМХЕ ЯУЕЛШ ЙННОЕПЮЖХХ
+2020-01-27 16:46:34 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-27 16:46:34 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-27 16:47:01 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-27 16:47:01 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-27 17:06:08 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-27 17:06:09 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-27 17:24:09 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-27 17:24:38 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-27 17:42:16 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-27 17:42:18 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 9:53:11 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 9:54:14 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 9:56:52 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 9:56:54 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 9:59:09 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 9:59:31 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 10:04:05 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 10:04:08 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 10:04:44 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 10:04:45 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 10:05:36 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 10:05:38 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 12:34:58 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 12:35:01 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 12:36:42 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 12:36:44 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 12:39:37 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 12:39:40 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 12:42:39 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 12:42:41 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 12:44:40 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 12:44:43 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 12:46:28 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 12:46:30 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 12:50:05 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 12:50:06 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 12:50:18 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 12:50:19 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:13:40 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:13:42 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:14:28 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:14:29 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:15:22 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:15:23 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:16:02 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:16:03 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:16:08 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:16:10 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:16:36 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:16:37 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:17:25 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:17:26 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:18:39 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:18:40 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:19:00 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:19:01 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:19:07 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:19:08 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:19:18 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:19:19 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:22:52 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:22:54 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:29:02 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:29:07 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:31:21 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:31:24 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:32:04 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:32:10 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 15:46:58 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 15:47:01 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-28 16:28:54 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-28 16:28:55 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
