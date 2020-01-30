@@ -119,9 +119,8 @@ namespace Demon
                     {
                         if (flager == 1) return;
                         Message message = new Message();
-                        DateTime time1 = DateTime.Now;
-                        int sec1 = time1.DayOfYear * 24 * 60 * 60 + time1.Hour * 60 * 60 + time1.Minute * 60 + time1.Second;
-                        message.Add(pack.IP, pack.TestsInPack.id[i], ""+ sec1);
+                        
+                        message.Add(pack.IP, pack.TestsInPack.id[i]);
                         request = JsonConvert.SerializeObject(message);
                         response = database.SendMsg("updateTestsNow", pack.Service, request);
                         FlagStarted = true;
@@ -220,9 +219,8 @@ namespace Demon
                     //File.Delete(pack.FilesToStart[indexElement]);
                 }
                 message = new Message();
-                DateTime time = DateTime.Now;
-                int sec = time.DayOfYear * 24 * 60 * 60 + time.Hour * 60 * 60 + time.Minute * 60 + time.Second;
-                message.Add(pack.IP, "not", "" + sec);
+                
+                message.Add(pack.IP, "not");
                 request = JsonConvert.SerializeObject(message);
                 response = database.SendMsg("updateTestsNow", pack.Service, request);
 

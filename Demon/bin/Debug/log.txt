@@ -87,3 +87,5 @@
 2020-01-28 15:47:01 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
 2020-01-28 16:28:54 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
 2020-01-28 16:28:55 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
+2020-01-29 15:10:19 [START] -- [гюосяй реярнб] C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\bin\Debug\test\GUI_MT_FAM_8_1_3.vbs
+2020-01-29 15:10:20 [START] -- [ярюрся мюанпю намнбкем] рЕЯРНБШИ
