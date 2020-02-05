@@ -119,7 +119,7 @@ namespace Demon
                     {
                         if (flager == 1) return;
                         Message message = new Message();
-                        
+
                         message.Add(pack.IP, pack.TestsInPack.id[i]);
                         request = JsonConvert.SerializeObject(message);
                         response = database.SendMsg("updateTestsNow", pack.Service, request);
@@ -158,7 +158,7 @@ namespace Demon
                                         pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "dependen_error", pack.VersionStends[indexElement], pack.Stend));
                                     else
                                         pack.ResultTest[pack.TestsInPack.id[indexElement]] = fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "dependen_error", pack.VersionStends[indexElement], pack.Stend);
-                                    
+
                                     FlagStarted = true;
                                     break;
                                 }
@@ -174,13 +174,13 @@ namespace Demon
                                 if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Passed") || fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Warning"))
                                 {
                                     if (!pack.ResultTest.ContainsKey(pack.TestsInPack.id[indexElement]))
-                                        pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));                                        
-                                    else           
+                                        pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));
+                                    else
                                         pack.ResultTest[pack.TestsInPack.id[indexElement]] = fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend);
                                     FlagStarted = true;
                                     break;
                                 }
-                                if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Failed"))
+                                else if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Failed"))
                                 {
                                     if (Int32.Parse(pack.TestsInPack.restart[indexElement]) < 0)
                                     {
@@ -192,22 +192,19 @@ namespace Demon
                                     FlagStarted = true;
                                     continue;
                                 }
-                            }
-                            catch
-                            {
-                                try
-                                {                                    
+                                else if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("cannot_open"))
+                                {
                                     if (!pack.ResultTest.ContainsKey(pack.TestsInPack.id[indexElement]))
                                         pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "time_out", pack.VersionStends[indexElement], pack.Stend));
                                     else
                                         pack.ResultTest[pack.TestsInPack.id[indexElement]] = fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "time_out", pack.VersionStends[indexElement], pack.Stend);
+                                    FlagStarted = true;
+                                    continue;
                                 }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine("Ошибка! " + ex.Message);
-                                }
-                                FlagStarted = true;
-                                continue;
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine("Ошибка! " + ex.Message);
                             }
                         }
                     }
@@ -219,7 +216,7 @@ namespace Demon
                     //File.Delete(pack.FilesToStart[indexElement]);
                 }
                 message = new Message();
-                
+
                 message.Add(pack.IP, "not");
                 request = JsonConvert.SerializeObject(message);
                 response = database.SendMsg("updateTestsNow", pack.Service, request);

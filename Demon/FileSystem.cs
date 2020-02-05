@@ -52,7 +52,7 @@ namespace Demon
                         break;
                     }
                     catch { Console.WriteLine("Отказано"); }
-                }
+                }				
             }
             return xRoot;
         }
@@ -71,7 +71,12 @@ namespace Demon
         {
             string result = "";
             XmlElement xRoot = LoadFile(resultPath);
-            foreach (XmlNode xNode in xRoot)
+			if (xRoot == null)
+			{
+				Console.WriteLine("cannot_open");
+				return "cannot_open";
+			}
+			foreach (XmlNode xNode in xRoot)
             {
                 foreach (XmlNode children in xNode.ChildNodes)
                 {
@@ -82,6 +87,7 @@ namespace Demon
                             if (dataChildren.Name == "Result")
                             {
                                 result = dataChildren.InnerText;
+								Console.WriteLine("Result = " + result);
                             }
                         }
                     }
@@ -102,6 +108,12 @@ namespace Demon
 			string dateofStart = "";
 			string result = "";
 			XmlElement xRoot = LoadFile(resultPath);
+			if (xRoot == null)
+			{
+				Console.WriteLine("cannot_open1");
+				return ResultTest(service, nameTest, resultPath, data, "time_out", version, stend);
+				//return "cannot_open";
+			}
 			int flag = 0;
 			Step step = new Step();
 			step.innerSteps = new List<string>();
@@ -204,7 +216,6 @@ namespace Demon
 			message.Add(DateTime.Now.ToString("dd MMMM yyyy | HH:mm:ss"));
 			message.Add(Convert.ToDateTime(dateofStart).ToString("dd MMMM yyyy | HH:mm:ss"));
 			message.Add(Convert.ToDateTime(dateofStart).AddSeconds(Int32.Parse(duration)).ToString("dd MMMM yyyy | HH:mm:ss"));
-			Console.WriteLine("sdfsdfsdfdfsdfsdfd");
 			request = JsonConvert.SerializeObject(message);
 			response = database.SendMsg("AddStatisticDemon", service, request);
 
