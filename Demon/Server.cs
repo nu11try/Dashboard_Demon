@@ -24,7 +24,8 @@ namespace Demon
 
         static void Main(string[] args)
         {
-            ip = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();            
+            //ip = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();            
+            ip = "172.17.42.32";
             try
             {
                 listener = new TcpListener(IPAddress.Parse(ip), port);

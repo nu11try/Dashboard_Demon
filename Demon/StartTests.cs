@@ -73,6 +73,7 @@ namespace Demon
 
         public void Init(object RESPONSE)
         {
+            StopAfterStart();
             flager = 0;
             string data = DateTime.Now.ToString("dd MMMM yyyy | HH:mm:ss");
 
@@ -91,11 +92,11 @@ namespace Demon
                     pack.Time = Response.args[i + 4];
                     pack.IP = Response.args[i + 3].Split(' ')[2];
                     pack.PathToTests = JsonConvert.DeserializeObject<Message>(Response.args[i + 2]).args[0];
-                    pack.TestsInPack = JsonConvert.DeserializeObject<Tests>(Response.args[i + 5]);
+                    pack.TestsInPack = JsonConvert.DeserializeObject<Tests>(Response.args[i + 5]);                    
 
                     ConfigStartTest(pack, data);
                     packs.Add(pack);
-                }
+                }                                                
                 packs.ForEach(pack =>
                 {
                     for (int i = 0; i < pack.TestsInPack.id.Count; i++)
@@ -104,6 +105,17 @@ namespace Demon
                             pack.TestsInPack.restart[i] = pack.Restart;
                         if (pack.TestsInPack.time[i].Equals("default"))
                             pack.TestsInPack.time[i] = pack.Time;
+
+                        int indexFolder = 1;
+                        while (true)
+                        {
+                            try
+                            {
+                                Directory.Delete(pack.PathToTests + "\\\\" + pack.TestsInPack.id[i] + "\\\\Res" + indexFolder, true);
+                                indexFolder++;
+                            }
+                            catch { break; }
+                        }
                     }
                 });
             }
@@ -146,8 +158,7 @@ namespace Demon
                             FlagStarted = true;
                             continue;
                         }
-
-                        if (!ver.Equals("no_version"))
+                        else if (!ver.Equals("no_version"))
                         {
                             string bufDependons = JsonConvert.DeserializeObject<Message>(pack.TestsInPack.dependon[indexElement]).args[0];
                             try
@@ -251,6 +262,19 @@ namespace Demon
             response = database.SendMsg("updateTestsNow", "-", request);
             flager = 1;
             Response = (Message)RESPONSE;
+            CloseProc();
+            CloseUFT();
+            FlagStarted = false;
+            try { timer.Dispose(); } catch { }
+            try { StartTest.Kill(); } catch { }
+            try { StartTest.Close(); } catch { }
+            try { SeconsdEnd = 0; } catch { }
+        }
+        public void StopAfterStart()
+        {            
+            //request = JsonConvert.SerializeObject(message);
+            //response = database.SendMsg("UpdateStatusAllPack", "-", request);
+            flager = 1;
             CloseProc();
             CloseUFT();
             FlagStarted = false;
