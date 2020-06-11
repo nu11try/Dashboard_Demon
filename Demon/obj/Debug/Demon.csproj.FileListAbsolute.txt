@@ -6,15 +6,10 @@ E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\EntityFramework.dll
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\EntityFramework.SqlServer.dll
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\Newtonsoft.Json.dll
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\System.Data.SqlClient.dll
-E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\System.Data.SQLite.dll
-E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\System.Data.SQLite.EF6.dll
-E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\System.Data.SQLite.Linq.dll
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\EntityFramework.xml
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\EntityFramework.SqlServer.xml
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\Newtonsoft.Json.xml
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\System.Data.SqlClient.xml
-E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\System.Data.SQLite.xml
-E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\System.Data.SQLite.dll.config
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\obj\Debug\Demon.csproj.CopyComplete
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\obj\Debug\Demon.exe
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\obj\Debug\Demon.pdb
@@ -42,7 +37,6 @@ E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\Demon.exe.manifest
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\Demon.application
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\obj\Debug\Demon.exe.manifest
 E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\obj\Debug\Demon.application
-E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\startTests.vbs
 C:\Users\User\Desktop\Dashboard_Demon\Demon\bin\Debug\startTests.vbs
 C:\Users\User\Desktop\Dashboard_Demon\Demon\bin\Debug\Demon.exe.manifest
 C:\Users\User\Desktop\Dashboard_Demon\Demon\bin\Debug\Demon.application
@@ -73,3 +67,5 @@ C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\obj\Debug\Demon.application
 C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\obj\Debug\Demon.csproj.CopyComplete
 C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\obj\Debug\Demon.exe
 C:\Users\User\Desktop\GitHub\Dashboard_Demon\Demon\obj\Debug\Demon.pdb
+E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\bin\Debug\startTests.vbs
+E:\GitHub\Demon\Demon\Dashboard_Demon\Demon\obj\Debug\Demon.TrustInfo.xml

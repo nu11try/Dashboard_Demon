@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Deployment.Application;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Demon
 {
@@ -17,6 +18,9 @@ namespace Demon
 
         static TcpListener listener;
 
+        private static Logger logger = new Logger();
+        private static FileSystem fs = new FileSystem();
+
         static class Data
         {
             public static string[] TestsForStart { get; set; }
@@ -24,12 +28,13 @@ namespace Demon
 
         static void Main(string[] args)
         {
-            //ip = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();            
-            ip = "172.17.42.32";
+            ip = Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString();
+            //ip = "172.17.42.32";
             try
             {
                 listener = new TcpListener(IPAddress.Parse(ip), port);
                 listener.Start();
+                logger.WriteLog("Демон запущен", "LOAD");
                 Console.WriteLine("===================================");
                 Console.WriteLine("Произведен запуск демона для Asylum!");
                 Console.WriteLine("IP машины - " + ip);
@@ -44,10 +49,14 @@ namespace Demon
                 Console.WriteLine("Демон готов принимать поручения");
                 Console.WriteLine("==================================");
 
-                if (!Directory.Exists(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\test\\"))
+                try
                 {
-                    Directory.CreateDirectory(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\test\\");
+                    if (!Directory.Exists(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\test\\"))
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\test\\");
+                    }
                 }
+                catch { }
 
                 try
                 {
@@ -56,23 +65,38 @@ namespace Demon
                 }
                 catch (Exception ex)
                 {
+                    logger.WriteLog("Таск на пробуждение отвалился по причине " + ex.Message, "ERROR");
                     Console.WriteLine("Таск на пробуждение отвалился по причине " + ex.Message);
                 }
 
                 while (true)
                 {
-                    TcpClient client = listener.AcceptTcpClient();
-                    ClientObject clientObject = new ClientObject(client);
+                    try
+                    {
+                        TcpClient client = listener.AcceptTcpClient();
+                        ClientObject clientObject = new ClientObject(client);
 
-                    // создаем новый поток для обслуживания нового клиента
-                    //Thread clientThread = new Thread(new ThreadStart(clientObject.Process));
-                    //clientThread.Start();
-                    ConnectClient(clientObject);
+                        // создаем новый поток для обслуживания нового клиента
+                        //Thread clientThread = new Thread(new ThreadStart(clientObject.Process));
+                        //clientThread.Start();
+                        ConnectClient(clientObject);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Проблема в цикле принятия клиентов");
+                        logger.WriteLog("Проблема в цикле принятия клиентов " + ex.Message, "ERROR");
+                    }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Произошла ошибка обработки клиента по причине " + ex.Message);
+                logger.WriteLog("Произошла ошибка обработки клиента по причине " + ex.Message, "ERROR");
+
+                //-----
+                /*string path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                Process.Start(path);
+                Process.GetCurrentProcess().Kill();*/
             }
             finally
             {
@@ -82,13 +106,13 @@ namespace Demon
         }
         static async void ConnectClient(ClientObject clientObject)
         {
-            await Task.Run(()=>clientObject.Process());
+            await Task.Run(() => clientObject.Process());
         }
         static async void AwakeDemon(Awake awake)
         {
             await Task.Run(() => awake.Init());
         }
-    }    
+    }
     public class Message
     {
         public Message() { args = new List<string>(); }

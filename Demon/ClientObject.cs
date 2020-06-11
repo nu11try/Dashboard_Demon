@@ -11,9 +11,9 @@ namespace Demon
     public class ClientObject
     {
         public TcpClient client;
-        Controller controller = new Controller();        
+        Controller controller = new Controller();
 
-        byte[] data;
+        private Logger logger = new Logger();
         string nameText = "";
         public ClientObject(TcpClient tcpClient)
         {
@@ -69,6 +69,7 @@ namespace Demon
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                logger.WriteLog("Не удалось прочитать/отправить транспортное сообщение по причине " + ex.Message, "ERROR");
             }
             finally
             {

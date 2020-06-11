@@ -23,7 +23,7 @@ Function test_start(a, b)
     qtApp.Test.Settings.Launchers("Web").Active = True
     qtApp.Test.Settings.Launchers("Web").SetLab "LocalBrowser"
     qtApp.Test.Settings.Launchers("Web").Browser = "CHROME"
-    qtApp.Test.Settings.Launchers("Web").Address = "http://eb-tse-demo-ufos.otr.ru:8889/sufdclient/index.zul"
+    qtApp.Test.Settings.Launchers("Web").Address = "http://eb-emc-test-ufos.otr.ru:8889/sufdclient/index.zul"
     qtApp.Test.Settings.Launchers("Web").CloseOnExit = True
     qtApp.Test.Settings.Launchers("Web").RuntimeParameterization = False
     qtApp.visible=False ' qt ����������� � ����� ������
@@ -64,4 +64,4 @@ Function test_start(a, b)
 	Set qtAutoExportResultsOpts = Nothing ' Release the Automatically Export Report Configuration Options object
 	Set qtAutoExportResultsOpts = Nothing ' Release the Automatically Export Report Configuration Options object
 End Function
-Call test_start("\\172.31.197.220\ATST\\EXP2\Tests\GUI_MT_SA_1_1", "\\172.31.197.220\ATST\\EXP2\Tests\GUI_MT_SA_1_1\Res1\")
+Call test_start("Z:\EXP2\Tests\GUI_MT_SA_1_1", "Z:\EXP2\Tests\GUI_MT_SA_1_1\Res1\")

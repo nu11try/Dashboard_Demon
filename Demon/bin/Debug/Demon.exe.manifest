@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
-  <asmv1:assemblyIdentity name="Demon.exe" version="1.0.0.50" publicKeyToken="0000000000000000" language="ru" processorArchitecture="msil" type="win32" />
+  <asmv1:assemblyIdentity name="Demon.exe" version="1.0.0.92" publicKeyToken="0000000000000000" language="ru" processorArchitecture="msil" type="win32" />
   <description asmv2:iconFile="demon.ico" xmlns="urn:schemas-microsoft-com:asm.v1" />
   <application />
   <entryPoint>
@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Demon.exe" size="160224">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Demon.exe" size="168416">
       <assemblyIdentity name="Demon" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>AvVNRY+Rh5i4fMBf/EKQeEX6eRKIz3IydRBgWYWzxC4=</dsig:DigestValue>
+        <dsig:DigestValue>f1origx7FtLd9c2Cs+cBnrDB2zv5yq19CY8rAYpoVzk=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -102,49 +102,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="System.Data.SQLite.dll" size="352256">
-      <assemblyIdentity name="System.Data.SQLite" version="1.0.111.0" publicKeyToken="DB937BC2D44FF139" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>of0RfUJ5GNIt3o/950WH9wrbgML8ByvF6/nkybafKTM=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="System.Data.SQLite.EF6.dll" size="184832">
-      <assemblyIdentity name="System.Data.SQLite.EF6" version="1.0.111.0" publicKeyToken="DB937BC2D44FF139" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>Z0Jk+0m73GpL+K4IAKdj+mnIi9aTMbOpFNbIosreo6c=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="System.Data.SQLite.Linq.dll" size="184832">
-      <assemblyIdentity name="System.Data.SQLite.Linq" version="1.0.111.0" publicKeyToken="DB937BC2D44FF139" language="neutral" processorArchitecture="msil" />
-      <hash>
-        <dsig:Transforms>
-          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
-        </dsig:Transforms>
-        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>IfoFRCsiieSjO3DAqlS2NmdXkMwf05yQwHGfw0LLH+A=</dsig:DigestValue>
-      </hash>
-    </dependentAssembly>
-  </dependency>
-  <file name="Demon.exe.config" size="1763">
+  <file name="Demon.exe.config" size="1153">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>R7sRi2C0WAYpIO9VoxW4KiwjiP+xQfcMlgi1NjQpNfo=</dsig:DigestValue>
+      <dsig:DigestValue>ZfexcGFslwGhpw2Xe/WqIGXgxyUAjRdLXtKigSSJo4g=</dsig:DigestValue>
     </hash>
   </file>
   <file name="demon.ico" size="124323">
@@ -156,13 +120,13 @@
       <dsig:DigestValue>eC9eKA9laO2H+fb2FelxwAowud3mcu4MAXj/bHeBB2A=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="startTests.vbs" size="4102">
+  <file name="startTests.vbs" size="3991">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>M3uOsJt4sPs0EAOtWspoVakoCmAsAICXFa6SN6vVF60=</dsig:DigestValue>
+      <dsig:DigestValue>m3G94utca5nU1G+dpE1jQbpKJm0OJIOabctRF0PIqZw=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Net;
 using System.IO;
-using System.Data.SQLite;
 using System.Diagnostics;
 using System.Threading;
 using Newtonsoft.Json;
@@ -43,11 +42,19 @@ namespace Demon
         public string file = "";
         public PackStart pack;
     }
+    public class TestPackNow : PackStart
+    {
+        public string Data = "";
+        public string Version = "";
+        public string Result = "";
+    }
 
     public class StartTests
     {
         public Regex myReg;
         public Match match;
+
+        private TestPackNow now = new TestPackNow();
 
         private DataBaseConnect database = new DataBaseConnect();
 
@@ -72,8 +79,7 @@ namespace Demon
         public static int flager = 0;
 
         public void Init(object RESPONSE)
-        {
-            StopAfterStart();
+        {            
             flager = 0;
             string data = DateTime.Now.ToString("dd MMMM yyyy | HH:mm:ss");
 
@@ -81,22 +87,30 @@ namespace Demon
 
             if (Response.args.Count > 0)
             {
-                for (int i = 0; i < Response.args.Count; i += 9)
+                try
                 {
-                    PackStart pack = new PackStart();
-                    pack.Name = Response.args[i + 1];
-                    pack.Service = Response.args[i];
-                    pack.Browser = Response.args[i + 6];
-                    pack.Restart = Response.args[i + 7];
-                    pack.Stend = Response.args[i + 8];
-                    pack.Time = Response.args[i + 4];
-                    pack.IP = Response.args[i + 3].Split(' ')[2];
-                    pack.PathToTests = JsonConvert.DeserializeObject<Message>(Response.args[i + 2]).args[0];
-                    pack.TestsInPack = JsonConvert.DeserializeObject<Tests>(Response.args[i + 5]);                    
+                    for (int i = 0; i < Response.args.Count; i += 9)
+                    {
+                        PackStart pack = new PackStart();
+                        pack.Name = Response.args[i + 1];
+                        pack.Service = Response.args[i];
+                        pack.Browser = Response.args[i + 6];
+                        pack.Restart = Response.args[i + 7];
+                        pack.Stend = Response.args[i + 8];
+                        pack.Time = Response.args[i + 4];
+                        pack.IP = Response.args[i + 3].Split(' ')[2];
+                        pack.PathToTests = JsonConvert.DeserializeObject<Message>(Response.args[i + 2]).args[0];
+                        pack.TestsInPack = JsonConvert.DeserializeObject<Tests>(Response.args[i + 5]);
 
-                    ConfigStartTest(pack, data);
-                    packs.Add(pack);
-                }                                                
+                        ConfigStartTest(pack, data);
+                        packs.Add(pack);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Ошибка разбора набора " + ex.Message);
+                }
+                Console.WriteLine("Производится удаление папок");
                 packs.ForEach(pack =>
                 {
                     for (int i = 0; i < pack.TestsInPack.id.Count; i++)
@@ -111,13 +125,20 @@ namespace Demon
                         {
                             try
                             {
-                                Directory.Delete(pack.PathToTests + "\\\\" + pack.TestsInPack.id[i] + "\\\\Res" + indexFolder, true);
+                                Console.WriteLine("\\\\pur-test01\\\\ATST" + pack.PathToTests.Replace("Z:", "") + "\\\\" + pack.TestsInPack.id[i] + "\\\\Res" + indexFolder);
+                                Directory.Delete("\\\\pur-test01\\\\ATST" + pack.PathToTests.Replace("Z:", "") + "\\\\" + pack.TestsInPack.id[i] + "\\\\Res" + indexFolder, true);
                                 indexFolder++;
                             }
-                            catch { break; }
+                            catch (Exception ex)
+                            {
+                                logger.WriteLog("Не удалось удалить папку \\\\pur-test01\\\\ATST" + pack.PathToTests.Replace("Z:", "") + "\\\\" + pack.TestsInPack.id[i] + "\\\\Res" + indexFolder
+                                        + " по причине " + ex.Message, "ERROR");
+                                break;
+                            }
                         }
                     }
                 });
+                Console.WriteLine("Удаление папок завершено");
             }
             else return;
 
@@ -129,6 +150,7 @@ namespace Demon
                     if (flager == 1) return;
                     while (Int32.Parse(pack.TestsInPack.restart[indexElement]) >= 0)
                     {
+                        CloseUFT();
                         if (flager == 1) return;
                         Message message = new Message();
 
@@ -156,10 +178,12 @@ namespace Demon
                             }
                             pack.TestsInPack.restart[indexElement] = (Int32.Parse(pack.TestsInPack.restart[indexElement]) - 1).ToString();
                             FlagStarted = true;
+                            logger.WriteLog("Не получена версия стенда", "WARNING");
                             continue;
                         }
                         else if (!ver.Equals("no_version"))
                         {
+
                             string bufDependons = JsonConvert.DeserializeObject<Message>(pack.TestsInPack.dependon[indexElement]).args[0];
                             try
                             {
@@ -176,35 +200,31 @@ namespace Demon
                             }
                             catch { }
 
+                            fs.ClearScreenshot(pack.ResultFolders[indexElement]);
+
                             StartScript(pack.FilesToStart[indexElement], pack);
                             pack.TestsInPack.restart[indexElement] = (Int32.Parse(pack.TestsInPack.restart[indexElement]) - 1).ToString();
-                            FlagStarted = true;
+                            FlagStarted = true;                            
 
                             try
-                            {
-                                if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Passed") || fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Warning"))
+                            {                                
+                                string bufResult = fs.TypeResultTest(pack.ResultFolders[indexElement]);
+
+                                logger.WriteLog("Результат теста " + pack.ResultFolders[indexElement] + " - " + fs.TypeResultTest(pack.ResultFolders[indexElement]), "RESULT");
+
+                                if (bufResult.Equals("Passed") || bufResult.Equals("Warning") || bufResult.Equals("Failed"))
                                 {
                                     if (!pack.ResultTest.ContainsKey(pack.TestsInPack.id[indexElement]))
                                         pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));
                                     else
                                         pack.ResultTest[pack.TestsInPack.id[indexElement]] = fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend);
                                     FlagStarted = true;
-                                    break;
+                                    if (bufResult.Equals("Passed") || bufResult.Equals("Warning")) break;
+                                    else continue;
                                 }
-                                else if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("Failed"))
+                                else if (bufResult.Equals("cannot_open"))
                                 {
-                                    if (Int32.Parse(pack.TestsInPack.restart[indexElement]) < 0)
-                                    {
-                                        if (!pack.ResultTest.ContainsKey(pack.TestsInPack.id[indexElement]))
-                                            pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend));
-                                        else
-                                            pack.ResultTest[pack.TestsInPack.id[indexElement]] = fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, pack.VersionStends[indexElement], pack.Stend);
-                                    }
-                                    FlagStarted = true;
-                                    continue;
-                                }
-                                else if (fs.TypeResultTest(pack.ResultFolders[indexElement]).Equals("cannot_open"))
-                                {
+                                    fs.MakeScreenshot(pack.ResultFolders[indexElement]);
                                     if (!pack.ResultTest.ContainsKey(pack.TestsInPack.id[indexElement]))
                                         pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, "time_out", pack.VersionStends[indexElement], pack.Stend));
                                     else
@@ -215,12 +235,27 @@ namespace Demon
                             }
                             catch (Exception ex)
                             {
-                                Console.WriteLine("Ошибка! " + ex.Message);
+                                logger.WriteLog("Ошибка при запуске тестов " + ex.Message, "ERROR");
+
+                                string opt;
+
+                                // ЭТОТ БЛОК НУЖЕН, ЕСЛИ ФАЙЛ XML НЕ БЫЛ СФОРМИРОВАН, НЕ УДАЛЯТЬ
+                                if (File.Exists(pack.ResultFolders[indexElement])) opt = "Failed";
+                                else opt = "no_file";
+
+                                fs.MakeScreenshot(pack.ResultFolders[indexElement]);
+                                if (!pack.ResultTest.ContainsKey(pack.TestsInPack.id[indexElement]))
+                                    pack.ResultTest.Add(pack.TestsInPack.id[indexElement], fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, opt, pack.VersionStends[indexElement], pack.Stend));
+                                else
+                                    pack.ResultTest[pack.TestsInPack.id[indexElement]] = fs.ResultTest(pack.Service, pack.TestsInPack.id[indexElement], pack.ResultFolders[indexElement], data, opt, pack.VersionStends[indexElement], pack.Stend);
+                                FlagStarted = true;
+                                continue;
+                                //-------------------------                                
                             }
                         }
                     }
                     Console.WriteLine("Тест " + pack.FilesToStart[indexElement] + " выполнен!");
-                    logger.WriteLog("[ЗАПУСК ТЕСТОВ] " + pack.FilesToStart[indexElement], "START");
+                    logger.WriteLog("Выполнен тест " + pack.FilesToStart[indexElement], "END");
                     FlagStarted = true;
 
                     indexElement++;
@@ -228,60 +263,84 @@ namespace Demon
                 }
                 message = new Message();
 
-                message.Add(pack.IP, "not");
-                request = JsonConvert.SerializeObject(message);
-                response = database.SendMsg("updateTestsNow", pack.Service, request);
+                try
+                {
+                    message.Add(pack.IP, "not");
+                    request = JsonConvert.SerializeObject(message);
+                    logger.WriteLog("Обновление теста " + request);
+                    response = database.SendMsg("updateTestsNow", pack.Service, request);
+                }
+                catch (Exception ex)
+                {
+                    logger.WriteLog("Ошибка в обновлении тестов по причине " + ex.Message, "ERROR");
+                }
 
-                message = new Message();
-                message.Add(pack.Service);
-                request = JsonConvert.SerializeObject(message);
-                response = database.SendMsg("DeleteAutostart", pack.Service, request);
+                try
+                {
+                    message = new Message();
+                    message.Add(pack.Service);
+                    request = JsonConvert.SerializeObject(message);
+                    logger.WriteLog("Удаление автостарта " + request);
+                    response = database.SendMsg("DeleteAutostart", pack.Service, request);
+                }
+                catch (Exception ex)
+                {
+                    logger.WriteLog("Ошибка в удаления автостарта по причине " + ex.Message, "ERROR");
+                }
 
-                message = new Message();
-                message.Add(pack.Name, pack.Service);
-                request = JsonConvert.SerializeObject(message);
-                response = database.SendMsg("UpdateStatusAutostart", pack.Service, request);
+                try
+                {
+                    message = new Message();
+                    message.Add(pack.Name, pack.Service);
+                    request = JsonConvert.SerializeObject(message);
+                    logger.WriteLog("Обновление статуса автостарта " + request);
+                    response = database.SendMsg("UpdateStatusAutostart", pack.Service, request);
+                }
+                catch (Exception ex)
+                {
+                    logger.WriteLog("Ошибка в обновлении статуса автостарта по причине " + ex.Message, "ERROR");
+                }
 
-                message = new Message();
-                message.Add(pack.Name);
-                request = JsonConvert.SerializeObject(message);
-                Console.WriteLine("Update status pack = " + request);
-                response = database.SendMsg("UpdateStatusPack", pack.Service, request);
+                try
+                {
+                    message = new Message();
+                    message.Add(pack.Name);
+                    request = JsonConvert.SerializeObject(message);
+                    logger.WriteLog("Обновление статуса набора " + request);
+                    response = database.SendMsg("UpdateStatusPack", pack.Service, request);
+                }
+                catch (Exception ex)
+                {
+                    logger.WriteLog("Ошибка в обновлении статуса набора по причине " + ex.Message, "ERROR");
+                }
 
                 FlagStarted = true;
                 Finish(pack);
+
+                try
+                {
+                    Directory.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + "\\test\\");
+                }
+                catch (Exception ex)
+                {
+                    logger.WriteLog("Невозможно удалить папку с vbs тестов по причине " + ex.Message, "ERROR");
+                }
             });
         }
         public void Stop(object RESPONSE)
         {
+            CloseUFT();
+
             Message message = new Message();
             DateTime time = DateTime.Now;
+
             int sec = time.DayOfYear * 24 * 60 * 60 + time.Hour * 60 * 60 + time.Minute * 60 + time.Second;
             message.Add(Dns.GetHostByName(Dns.GetHostName()).AddressList[0].ToString(), "not", "" + sec);
-            request = JsonConvert.SerializeObject(message);
-            response = database.SendMsg("updateTestsNow", "-", request);
+
+            database.SendMsg("updateTestsNow", "-", JsonConvert.SerializeObject(message));
+
             flager = 1;
-            Response = (Message)RESPONSE;
-            CloseProc();
-            CloseUFT();
-            FlagStarted = false;
-            try { timer.Dispose(); } catch { }
-            try { StartTest.Kill(); } catch { }
-            try { StartTest.Close(); } catch { }
-            try { SeconsdEnd = 0; } catch { }
-        }
-        public void StopAfterStart()
-        {            
-            //request = JsonConvert.SerializeObject(message);
-            //response = database.SendMsg("UpdateStatusAllPack", "-", request);
-            flager = 1;
-            CloseProc();
-            CloseUFT();
-            FlagStarted = false;
-            try { timer.Dispose(); } catch { }
-            try { StartTest.Kill(); } catch { }
-            try { StartTest.Close(); } catch { }
-            try { SeconsdEnd = 0; } catch { }
+            FlagStarted = false;            
         }
         static public void ReplaceInFile(string filePath, string searchText, string replaceText)
         {
@@ -352,131 +411,213 @@ namespace Demon
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
-                    logger.WriteLog("[ЗАПУСК ТЕСТОВ] " + ex.Message, "ERROR");
-
+                    logger.WriteLog("Упал запуск тестов по причине " + ex.Message, "ERROR");
                 }
             }
         }
         public void Finish(PackStart pack)
         {
-            CloseProc();
             CloseUFT();
-
             logger.WriteLog("[СТАТУС НАБОРА ОБНОВЛЕН] " + pack.Name, "START");
             Console.WriteLine("Статус набора " + pack.Name + " обновлен!");
-            freeRAM.Free();
         }
         public void StartScript(string file, PackStart pack)
         {
-            CloseProc();
-            CloseUFT();
-
             SeconsdEnd = 0;
-
-            StartTest.StartInfo.FileName = file;
-            StartTest.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            StartTest.StartInfo.UseShellExecute = true;
-            StartTest.StartInfo.LoadUserProfile = true;
-            StartTest.Start();
-
-            Console.WriteLine("Ждем поток");
-            tm = new TimerCallback(TimeOut);
-            Options options = new Options();
-            options.file = file;
-            options.pack = pack;
-            timer = new Timer(tm, options, 1000, 1000);
-            Console.WriteLine("pack = " + pack.Name + " pack.Restart = " + pack.Restart);
-            StartTest.WaitForExit();
+            try
+            {
+                StartTest = new Process();
+                StartTest.StartInfo.FileName = file;
+                StartTest.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                StartTest.StartInfo.UseShellExecute = true;
+                StartTest.StartInfo.LoadUserProfile = true;
+                StartTest.Start();
+                
+                tm = new TimerCallback(TimeOut);
+                Options options = new Options();
+                options.file = file;
+                options.pack = pack;
+                timer = new Timer(tm, options, 5000, 1000);
+                
+                StartTest.WaitForExit();
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Функция StartScript(string file, PackStart pack) выдала ошибку по причине " + ex.Message, "ERROR");
+            }
         }
         public void TimeOut(object obj)
         {
-            if (flager == 1)
-            {
-                CloseProc();
-                CloseUFT();
-                FlagStarted = false;
+            try
+            {                
+                if (flager == 1) FlagStarted = false;
+                else
+                {
+                    Options options = (Options)obj;
+                    string fileStarted = options.file;
+                    PackStart pack = options.pack;
+                    Console.WriteLine("Секунд прошло = " + SeconsdEnd);
+                    if (SeconsdEnd >= Int32.Parse(pack.TestsInPack.time[pack.FilesToStart.IndexOf(fileStarted.ToString())]) && FlagStarted) FlagStarted = false;
+                    else if (!FlagStarted)
+                    {
+                        try { SeconsdEnd = 0; } catch { }
+                        FlagStarted = false;
+                    }
+                    else SeconsdEnd++;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                Options options = (Options)obj;
-                string fileStarted = options.file;
-                PackStart pack = options.pack;
-                Console.WriteLine("Секунд прошло = " + SeconsdEnd);
-                if (SeconsdEnd >= Int32.Parse(pack.TestsInPack.time[pack.FilesToStart.IndexOf(fileStarted.ToString())]) && FlagStarted)
-                {
-                    CloseProc();
-                    CloseUFT();
-                    FlagStarted = false;
-                }
-                else if (!FlagStarted)
-                {
-                    try { SeconsdEnd = 0; } catch { }
-                    FlagStarted = false;
-                }
-                else SeconsdEnd++;
+                logger.WriteLog("Функция TimeOut(object obj) выдала ошибку по причине " + ex.Message, "ERROR");
             }
         }
         public void CloseUFT()
         {
             CloseProc();
-            try { timer.Dispose(); } catch { }
-            try { StartTest.Kill(); } catch { }
-            try { StartTest.Close(); } catch { }
-            try { SeconsdEnd = 0; } catch { }
+            try { timer.Dispose(); }
+            catch (Exception ex) { logger.WriteLog("Не удалось произвести timer.Dispose() CloseUFT() по причине " + ex.Message, "ERROR"); }
+            try { StartTest.Refresh(); }
+            catch (Exception ex) { logger.WriteLog("Не удалось произвести StartTest.Refresh() CloseUFT() по причине " + ex.Message, "ERROR"); }
+            try { StartTest.Dispose(); }
+            catch (Exception ex) { logger.WriteLog("Не удалось произвести StartTest.Dispose() CloseUFT() по причине " + ex.Message, "ERROR"); }
+            try { StartTest.Kill(); }
+            catch (Exception ex) { logger.WriteLog("Не удалось произвести StartTest.Kill() CloseUFT() по причине " + ex.Message, "ERROR"); }            
+            try { StartTest.Close(); }
+            catch (Exception ex) { logger.WriteLog("Не удалось произвести StartTest.Close() CloseUFT() по причине " + ex.Message, "ERROR"); }
+            try { SeconsdEnd = 0; }
+            catch (Exception ex) { logger.WriteLog("Не удалось произвести SeconsdEnd = 0 по причине " + ex.Message, "ERROR"); }
+            FlagStarted = false;
         }
         public void CloseProc()
         {
             try { foreach (Process proc in Process.GetProcessesByName("iexplore")) proc.Kill(); }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс iexplore по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
 
             try { foreach (Process proc in Process.GetProcessesByName("firefox")) proc.Kill(); }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс firefox по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
 
             try { foreach (Process proc in Process.GetProcessesByName("JinnClient")) proc.Kill(); }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс JinnClient по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
 
             try { foreach (Process proc in Process.GetProcessesByName("java")) proc.Kill(); }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс java по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
 
             try { foreach (Process proc in Process.GetProcessesByName("plugin-container")) proc.Kill(); }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс plugin-container по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
 
             try { foreach (Process proc in Process.GetProcessesByName("phantomjs")) proc.Kill(); }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс phantomjs по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
 
             try { foreach (Process proc in Process.GetProcessesByName("chrome")) proc.Kill(); }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс chrome по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
 
             try { foreach (Process proc in Process.GetProcessesByName("Mediator64")) proc.Kill(); }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс Mediator64 по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
 
             try { foreach (Process proc in Process.GetProcessesByName("UFT")) proc.Kill(); }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс UFT по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
 
             try { foreach (Process proc in Process.GetProcessesByName("QtpAutomationAgent")) proc.Kill(); }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс QtpAutomationAgent по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
 
             try { foreach (Process proc in Process.GetProcessesByName("wscript")) proc.Kill(); }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс wscript по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
 
             try { foreach (Process proc in Process.GetProcessesByName("JinnSignExtensionProvider")) proc.Kill(); }
-            catch (Exception ex) { Console.WriteLine(ex.Message); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс JinnSignExtensionProvider по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
+
+            try { foreach (Process proc in Process.GetProcessesByName("ICheck")) proc.Kill(); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс ICheck по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
+
+            try { foreach (Process proc in Process.GetProcessesByName("EXCEL")) proc.Kill(); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс EXCEL по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
+
+            try { foreach (Process proc in Process.GetProcessesByName("HP.UFT.Chrome.NativeMessagingHost")) proc.Kill(); }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось остановить процесс HP.UFT.Chrome.NativeMessagingHost по причине " + ex.Message, "ERROR");
+                Console.WriteLine(ex.Message);
+            }
         }
         public void DeleteResDirectories(String nameTest, String dir)
         {
-            String[] tmp = dir.Split('\\');
-            String dirs = tmp[0] + "\\" + tmp[2] + "\\" + tmp[3] + "\\" + nameTest;
-            Console.WriteLine(dirs);
-            string[] ress = Directory.GetDirectories(dirs);
-            foreach (string res in ress)
+            try
             {
-                tmp = res.Split('\\');
-                if (tmp[tmp.Length - 1].StartsWith("Res"))
+                String[] tmp = dir.Split('\\');
+                String dirs = tmp[0] + "\\" + tmp[2] + "\\" + tmp[3] + "\\" + nameTest;
+                Console.WriteLine(dirs);
+                string[] ress = Directory.GetDirectories(dirs);
+                foreach (string res in ress)
                 {
-                    DirectoryInfo dirInfo = new DirectoryInfo(res);
-                    dirInfo.Delete(true);
-                    Console.WriteLine(res);
+                    tmp = res.Split('\\');
+                    if (tmp[tmp.Length - 1].StartsWith("Res"))
+                    {
+                        logger.WriteLog("Происходит удаление папки " + res);
+                        DirectoryInfo dirInfo = new DirectoryInfo(res);
+                        dirInfo.Delete(true);
+                        Console.WriteLine(res);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog("Не удалось найти папку на удаление или произвести удаление по причине " + ex.Message, "ERROR");
             }
         }
         public string GetVersionStend(string stend)
@@ -496,10 +637,11 @@ namespace Demon
                 myReg = new Regex(@"<b>.*");
                 match = myReg.Match(match.Value.Split('&')[1]);
                 result += " " + match.Value.Substring(3);
-
+                logger.WriteLog("Версия стенда " + stend + "sufdversion - " + result);
             }
-            catch
+            catch (Exception ex)
             {
+                logger.WriteLog("Не удалось получить версию стенда по причине " + ex.Message, "ERROR");
                 result = "no_version";
             }
             return result;

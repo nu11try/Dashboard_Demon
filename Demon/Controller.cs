@@ -1,36 +1,36 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Data.SQLite;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Reflection;
 
 namespace Demon
 {    
     class Controller
     {
-        private DataBaseConnect database = new DataBaseConnect();
-        private SQLiteCommand command;
-        private string query = "";
-        private static Message res = new Message();
         private StartTests startTests = new StartTests();
+        private Logger logger = new Logger();
+        private Message mess;
 
         public string transformation(string param)
-        {            
-            Message mess = JsonConvert.DeserializeObject<Message>(param);
-            if (mess.args[mess.args.Count - 1].Equals("START"))
+        {
+            try
             {
-                mess.args.RemoveAt(mess.args.Count - 1);
-                startTests.Init(mess);
+                mess = JsonConvert.DeserializeObject<Message>(param);
+                if (mess.args[mess.args.Count - 1].Equals("START"))
+                {
+                    mess.args.RemoveAt(mess.args.Count - 1);
+                    startTests.Stop(mess);
+                    startTests.Init(mess);
+                    logger.WriteLog("Выполнен запрос на запуск набора");
+                }
+                if (mess.args[mess.args.Count - 1].Equals("STOP"))
+                {
+                    mess.args.RemoveAt(mess.args.Count - 1);
+                    startTests.Stop(mess);
+                    logger.WriteLog("Выполнен запрос на остановку набора");
+                }
             }
-            if (mess.args[mess.args.Count - 1].Equals("STOP"))
+            catch (Exception ex)
             {
-                mess.args.RemoveAt(mess.args.Count - 1);
-                startTests.Stop(mess);
+                logger.WriteLog("Не удалось запустить/остановить (" + mess.args[mess.args.Count - 1] + ") по причине " + ex.Message, "ERROR");
             }
             return "true";
         }

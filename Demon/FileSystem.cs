@@ -1,12 +1,15 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data.SQLite;
+using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml;
 
 namespace Demon
@@ -15,7 +18,7 @@ namespace Demon
     {
         public string name { get; set; }
         public List<string> innerSteps { get; set; }
-        public string time { get; set; }
+        public string time { get; set; }		
     }
     public class Steps
     {
@@ -25,17 +28,30 @@ namespace Demon
     public class FileSystem
     {        
         private DataBaseConnect database = new DataBaseConnect();
-        private SQLiteCommand command;
-        private string query = "";
         private Message message = new Message();
         private string request = "";
         private string response = "";
+		private Logger logger = new Logger();
 
-        Dictionary<string, string> elementXML = new Dictionary<string, string>();
-        XmlNode attr;
+		Dictionary<string, string> elementXML = new Dictionary<string, string>();
         XmlDocument xDoc = new XmlDocument();
 
-        public XmlElement LoadFile(string resultPath)
+		private static ICollection<string> FindNext(string str, string resultPath)
+		{
+			var list = new LinkedList<string>();
+			using (var reader = new StreamReader(resultPath, Encoding.Default))
+			{
+				while (!reader.EndOfStream)
+				{
+					var tmp = reader.ReadLine();
+					if (tmp != null && tmp.Contains(str))
+						list.AddLast(tmp);
+				}
+			}
+			return list;
+		}
+
+		public XmlElement LoadFile(string resultPath)
         {
             XmlElement xRoot = null;
             if (StartTests.flager != 1)
@@ -51,7 +67,11 @@ namespace Demon
                         Console.WriteLine("Файл загружен");
                         break;
                     }
-                    catch { Console.WriteLine("Отказано"); }
+                    catch (Exception ex)
+					{
+						logger.WriteLog("Отказано в попытке прочитать файл по причине " + ex.Message, "ERROR");
+						Console.WriteLine("Отказано");
+					}
                 }				
             }
             return xRoot;
@@ -69,7 +89,11 @@ namespace Demon
         }
         public string TypeResultTest(string resultPath)
         {
-            string result = "";
+			ICollection<string> result = FindNext("<Result>Passed</Result>", resultPath);
+			if (result.Count == 0) return "Failed";
+			else return "Passed";
+
+			/*string result = "";
             XmlElement xRoot = LoadFile(resultPath);
 			if (xRoot == null)
 			{
@@ -93,7 +117,7 @@ namespace Demon
                     }
                 }
             }
-            return result;
+            return result;*/
         }
 		public string ResultTest(string service, string nameTest, string resultPath, string data, string version, string stend)
 		{
@@ -102,12 +126,8 @@ namespace Demon
 			// в каждом элементе содержатся шаги и время
 			// они идут через один (ШАГ ВРЕМЯ ШАГ...)
 			// бывают момент, когда времени 2
-			// 2-ое время - это потерянное время
-			List<Step> listSteps = new List<Step>();
-			string duration = "";
-			string dateofStart = "";
-			string result = "";
-			XmlElement xRoot = LoadFile(resultPath);
+			// 2-ое время - это потерянное время			
+			/*XmlElement xRoot = LoadFile(resultPath);
 			if (xRoot == null)
 			{
 				Console.WriteLine("cannot_open1");
@@ -188,17 +208,32 @@ namespace Demon
 						}
 					}
 				}
-			}
+			}*/
+			List<Step> listSteps = new List<Step>();
+			string result = TypeResultTest(resultPath);
+			logger.WriteLog(nameTest + " = " + result);
+			ICollection<string> Iduration = FindNext("<Duration>", resultPath);
+			ICollection<string> Idate = FindNext("<StartTime>", resultPath);
+
+			string[] Aduration = new string[Iduration.Count];
+			string[] Adate = new string[Idate.Count];
+
+			Iduration.CopyTo(Aduration, 0);
+			Idate.CopyTo(Adate, 0);
+
+			string duration = Aduration[Aduration.Length - 1].Split('<')[1].Split('>')[1];
+			string dateofStart = Adate[Adate.Length - 1].Split('<')[1].Split('>')[1];
+
 			Steps steps1 = new Steps();
-			steps1.innerSteps = new List<List<string>>();
-			steps1.name = new List<string>();
 			Message mess = new Message();
-			for (int i = 0; i < listSteps.Count; i++)
+			/*steps1.innerSteps = new List<List<string>>();
+			steps1.name = new List<string>();*/
+			/*for (int i = 0; i < listSteps.Count; i++)
 			{
 				steps1.name.Add(listSteps[i].name);
 				steps1.innerSteps.Add(listSteps[i].innerSteps);
 				mess.Add(listSteps[i].time);
-			}
+			}*/
 
 			message = new Message();
 
@@ -245,12 +280,33 @@ namespace Demon
 					message.Add("TIMEOUT");
 					message.Add("TIMEOUT");
 				}
+				else if (options == "error")
+				{
+					message.Add("ERROR");
+					message.Add("ERROR");
+					message.Add("ERROR");
+					message.Add("ERROR");
+				}
+				else if (options == "Failed")
+				{
+					message.Add("Failed");
+					message.Add("Failed");
+					message.Add("Failed");
+					message.Add("Failed");
+				}
 				else if (options == "no_verson")
 				{
 					message.Add("no_verson");
 					message.Add("no_verson");
 					message.Add("no_verson");
 					message.Add("no_verson");
+				}
+				else if (options == "no_file")
+				{
+					message.Add("MISSING RESULT FILE");
+					message.Add("MISSING RESULT FILE");
+					message.Add("MISSING RESULT FILE");
+					message.Add("MISSING RESULT FILE");
 				}
 				message.Add(data);
 				message.Add(version);
@@ -265,6 +321,36 @@ namespace Demon
 				response = database.SendMsg("AddStatisticDemon", service, request);
 			}
 			return "Failed";
+		}
+		public void ClearScreenshot(string path)
+		{
+			try
+			{
+				Directory.Delete(path.Replace("\\Res1\\Report\\run_results.xml", "\\ScreenShots\\"), true);
+			}
+			catch { }
+		}
+		public void MakeScreenshot(string path)
+		{
+			try
+			{
+				path = path.Replace("\\Res1\\Report\\run_results.xml", "\\ScreenShots\\");
+				Console.WriteLine("Путь к снимку " + path);
+				string ext = "png";
+				if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+				Size screenSz = Screen.PrimaryScreen.Bounds.Size;
+				Bitmap screenshot = new Bitmap(screenSz.Width, screenSz.Height);
+				Graphics gr = Graphics.FromImage(screenshot);
+				gr.CopyFromScreen(Point.Empty, Point.Empty, screenSz);
+				string filepath = path + "error." + ext;
+				List<PropertyInfo> props = typeof(ImageFormat).GetProperties(BindingFlags.Static | BindingFlags.Public).ToList();
+				var imgformat = (ImageFormat)props.Find(prop => prop.Name.ToLower() == ext).GetValue(null, null);
+				screenshot.Save(filepath, imgformat);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Проблема с созданием скриншота! " + ex.Message);
+			}
 		}
 	}
 }

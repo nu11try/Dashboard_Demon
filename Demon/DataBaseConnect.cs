@@ -19,6 +19,8 @@ namespace Demon
         const string address = "172.31.191.200";
         //const string address = "127.0.0.1";
 
+        private Logger logger = new Logger();
+
         byte[] data;
         string param;
         string nameText = "";
@@ -35,8 +37,9 @@ namespace Demon
                     File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + nameText, bufJSON);
                     break;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    logger.WriteLog("Ошибка при отправке сообщения без параметров по причине " + ex.Message, "ERROR");
                     Task.Delay(1000);
                 }
             }
@@ -55,8 +58,9 @@ namespace Demon
                     File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + nameText, bufJSON);
                     break;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    logger.WriteLog("Ошибка при отправке параметров с сообщением по причине " + ex.Message, "ERROR");
                     Task.Delay(1000);
                 }
             }
@@ -81,8 +85,9 @@ namespace Demon
                         File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
                         break;
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        logger.WriteLog("Ошибка при чтении параметров по причине " + ex.Message, "ERROR");
                         Task.Delay(1000);
                     }
                 }
@@ -110,8 +115,9 @@ namespace Demon
                         File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
                         break;
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        logger.WriteLog("Ошибка при получении параметров по причине " + ex.Message, "ERROR");
                         Task.Delay(1000);
                     }
                 }
@@ -144,8 +150,9 @@ namespace Demon
                         File.Delete(Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName) + nameText);
                         break;
                     }
-                    catch
+                    catch (Exception ex)
                     {
+                        logger.WriteLog("Ошибка при получении параметров 2 по причине " + ex.Message, "ERROR");
                         Task.Delay(1000);
                     }
                 }
@@ -154,6 +161,7 @@ namespace Demon
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                logger.WriteLog("Ошибка на подключение к серверу по причине " + ex.Message, "ERROR");
                 Environment.Exit(0);
             }
             request = new Request();

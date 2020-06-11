@@ -8,10 +8,10 @@ Dim strLastError
 	
 Function test_start(a, b)	
 	Set qtApp=createobject("QuickTest.Application") 
-	 If Not qtApp.Launched Then 
-	 qtApp.Launch
-	 End If
-	qtApp.visible = False ' qt запускается в тихом режиме
+	 'If Not qtApp.Launched Then 	
+	 'End If
+	qtApp.Launch
+	qtApp.visible = True ' qt запускается в тихом режиме
 	
 	' Set UFT run options
 	qtApp.Options.Run.RunMode = "Fast"
@@ -38,7 +38,7 @@ Function test_start(a, b)
 	
 	' Set options for automatic export of run results at the end of every run session
 	Set qtAutoExportResultsOpts = qtApp.Options.Run.AutoExportReportConfig
-	qtAutoExportResultsOpts.AutoExportResults = False ' Instruct qt to automatically export the run results at the end of each run session
+	qtAutoExportResultsOpts.AutoExportResults = True ' Instruct qt to automatically export the run results at the end of each run session
 	qtAutoExportResultsOpts.StepDetailsReport = True ' Instruct qt to automatically export the step details part of the run results at the end of each run session
 	qtAutoExportResultsOpts.DataTableReport = True ' Instruct qt to automatically export the data table part of the run results at the end of each run session
 	qtAutoExportResultsOpts.LogTrackingReport = True ' Instruct qt to automatically export the log tracking part of the run results at the end of each run session
@@ -61,6 +61,5 @@ Function test_start(a, b)
 	Set qtResultsOpt = Nothing ' Release the Run Results Options object
 	Set qtTest = Nothing ' Release the Test object
 	Set qtApp = Nothing ' Release the Application object
-	Set qtAutoExportResultsOpts = Nothing ' Release the Automatically Export Report Configuration Options object
 	Set qtAutoExportResultsOpts = Nothing ' Release the Automatically Export Report Configuration Options object
 End Function
